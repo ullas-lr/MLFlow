@@ -1,0 +1,38 @@
+# Core ML/Experiment Tracking
+mlflow==2.10.2
+dagshub==0.3.18
+
+# Model Interaction
+ollama==0.1.6
+requests==2.31.0
+
+# Data Processing
+pandas==2.2.0
+numpy==1.26.3
+
+# Monitoring and Visualization
+plotly==5.18.0
+dash==2.14.2
+psutil==5.9.8
+
+# Metrics and Evaluation
+scikit-learn==1.4.0
+evaluate==0.4.1
+
+# Configuration
+python-dotenv==1.0.1
+pyyaml==6.0.1
+
+# Testing
+pytest==8.0.0
+pytest-cov==4.1.0
+
+# Jupyter for analysis
+jupyter==1.0.0
+ipykernel==6.29.0
+notebook==7.0.7
+
+# Utilities
+tqdm==4.66.1
+click==8.1.7
+colorama==0.4.6

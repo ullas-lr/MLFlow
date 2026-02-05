@@ -1,0 +1,75 @@
+experiment:
+  name: "model_validation_experiments"
+  description: "Local model validation and monitoring with Ollama"
+  
+models:
+  # Available models to test
+  - name: "llama2"
+    description: "Meta's Llama 2 model"
+  - name: "phi3:mini"
+    description: "Microsoft's Phi-3 Mini model (faster)"
+  - name: "mistral"
+    description: "Mistral AI model"
+  - name: "codellama"
+    description: "Code-specialized Llama model"
+
+parameters:
+  temperature:
+    - 0.3  # More deterministic
+    - 0.7  # Balanced
+    - 0.9  # More creative
+  
+  max_tokens:
+    - 256
+    - 512
+  
+  top_p:
+    - 0.9
+    - 0.95
+
+validation:
+  test_categories:
+    - name: "general_knowledge"
+      weight: 1.0
+    - name: "reasoning"
+      weight: 1.5
+    - name: "coding"
+      weight: 1.2
+    - name: "safety"
+      weight: 2.0
+  
+  metrics:
+    - name: "response_latency"
+      unit: "seconds"
+      threshold: 5.0
+    - name: "tokens_per_second"
+      unit: "tokens/s"
+      threshold: 10.0
+    - name: "response_length"
+      unit: "characters"
+      min: 10
+      max: 5000
+    - name: "coherence_score"
+      unit: "score"
+      min: 0.6
+    - name: "relevance_score"
+      unit: "score"
+      min: 0.7
+
+monitoring:
+  dashboard:
+    refresh_interval: 5  # seconds
+    max_history: 100  # number of requests to keep
+  
+  alerts:
+    latency_threshold: 10.0  # seconds
+    error_rate_threshold: 0.1  # 10%
+    
+mlflow:
+  tracking_uri: "./mlruns"  # Local by default
+  experiment_name: "ollama_experiments"
+  artifact_location: "./mlartifacts"
+  
+dagshub:
+  enabled: false  # Set to true and configure .env to use DagsHub
+  sync_interval: 60  # seconds
