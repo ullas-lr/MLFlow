@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Drift Example Healthcare</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0f172a; /* Slate 900 */
+        }
+        .bg-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231e293b' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .metric-card {
+            background-color: rgba(30, 41, 59, 0.6);
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .glass-panel {
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        .drift-alert {
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0% { border-color: #ef4444; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { border-color: #ef4444; box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { border-color: #ef4444; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .alert-stamp {
+            border: 3px solid #ef4444;
+            color: #ef4444;
+            transform: rotate(-5deg);
+            background-color: rgba(239, 68, 68, 0.1);
+            mask-image: url("data:image/svg+xml,%3Csvg width='200' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.8'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="w-[1280px] h-[720px] bg-grid text-white flex flex-col" data-new-gr-c-s-check-loaded="14.1271.0" data-gr-ext-installed="">
+<!-- Top Bar (No Gradients) -->
+<div class="w-full h-1 bg-red-600"></div>
+<!-- Header Section -->
+<div class="px-12 pt-10 pb-6 flex justify-between items-end border-b border-gray-800">
+<div>
+<div class="flex items-center space-x-3 mb-2">
+<span class="bg-blue-900 text-blue-300 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider border border-blue-800">Part 4</span>
+<span class="text-gray-400 text-sm font-medium tracking-wide">Model Monitoring</span>
+</div>
+<h1 class="text-4xl font-bold text-white tracking-tight">Drift Example: Healthcare Scenario</h1>
+</div>
+<div class="flex items-center space-x-2 text-red-400 text-sm font-mono animate-pulse">
+<i class="fas fa-exclamation-triangle"></i>
+<span>Active Alert Detected</span>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 px-12 py-8 flex flex-col overflow-hidden">
+<!-- Top Row: Key Metrics -->
+<div class="grid grid-cols-3 gap-6 mb-8">
+<!-- Metric 1: Quality Drop -->
+<div class="metric-card rounded-xl p-5 flex items-center justify-between border-l-4 border-l-red-500">
+<div>
+<p class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-1">Quality Score Drop</p>
+<div class="flex items-baseline space-x-2">
+<span class="text-4xl font-bold text-white">0.72</span>
+<span class="text-red-500 text-sm font-bold"><i class="fas fa-arrow-down"></i> 22%</span>
+</div>
+<p class="text-xs text-gray-500 mt-2">Baseline: 0.92 (Jan)</p>
+</div>
+<div class="h-12 w-12 rounded-full bg-red-500 bg-opacity-20 flex items-center justify-center text-red-500 text-xl">
+<i class="fas fa-chart-line"></i>
+</div>
+</div>
+<!-- Metric 2: Dominant Category -->
+<div class="metric-card rounded-xl p-5 flex items-center justify-between border-l-4 border-l-yellow-500">
+<div>
+<p class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-1">Primary Intent Shift</p>
+<div class="flex items-baseline space-x-2">
+<span class="text-2xl font-bold text-white">Respiratory</span>
+</div>
+<p class="text-xs text-yellow-500 mt-2 font-bold"><i class="fas fa-arrow-up"></i> 600% Volume Increase</p>
+</div>
+<div class="h-12 w-12 rounded-full bg-yellow-500 bg-opacity-20 flex items-center justify-center text-yellow-500 text-xl">
+<i class="fas fa-lungs-virus"></i>
+</div>
+</div>
+<!-- Metric 3: Statistical Significance -->
+<div class="metric-card rounded-xl p-5 flex items-center justify-between border-l-4 border-l-blue-500">
+<div>
+<p class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-1">Drift Significance</p>
+<div class="flex items-baseline space-x-2">
+<span class="text-4xl font-bold text-white">High</span>
+</div>
+<p class="text-xs text-gray-500 mt-2">P-Value &lt; 0.001</p>
+</div>
+<div class="h-12 w-12 rounded-full bg-blue-500 bg-opacity-20 flex items-center justify-center text-blue-500 text-xl">
+<i class="fas fa-microscope"></i>
+</div>
+</div>
+</div>
+<!-- Main Content Split -->
+<div class="flex-1 flex space-x-8 min-h-0">
+<!-- Left: Distribution Chart -->
+<div class="w-3/5 glass-panel rounded-xl p-6 border border-gray-700 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold text-white flex items-center">
+<i class="fas fa-random text-blue-500 mr-2"></i>
+                        Data Distribution Shift
+                    </h3>
+<div class="flex space-x-4 text-xs">
+<div class="flex items-center"><span class="w-3 h-3 rounded bg-blue-600 mr-2"></span>Baseline (Jan)</div>
+<div class="flex items-center"><span class="w-3 h-3 rounded bg-red-500 mr-2"></span>Current (Feb)</div>
+</div>
+</div>
+<div class="flex-1 relative w-full h-full">
+<canvas id="driftChart"></canvas>
+</div>
+</div>
+<!-- Right: Analysis & Action -->
+<div class="w-2/5 flex flex-col space-y-6">
+<!-- Analysis Card -->
+<div class="metric-card rounded-xl p-5 flex-1">
+<h3 class="text-sm font-bold text-gray-300 uppercase tracking-wide mb-3 border-b border-gray-700 pb-2">
+<i class="fas fa-search mr-2"></i>Root Cause Analysis
+                    </h3>
+<div class="space-y-4">
+<div class="bg-gray-800 p-3 rounded border-l-2 border-blue-400">
+<p class="text-xs text-blue-400 font-bold mb-1">Context</p>
+<p class="text-sm text-gray-300">Seasonal transition to <span class="text-white font-bold">Flu Season</span> causing massive spike in respiratory queries.</p>
+</div>
+<div class="bg-gray-800 p-3 rounded border-l-2 border-red-400">
+<p class="text-xs text-red-400 font-bold mb-1">Impact</p>
+<p class="text-sm text-gray-300">Model trained on general data lacks specificity for acute respiratory conditions, dropping quality score to <span class="text-red-400 font-mono">0.72</span>.</p>
+</div>
+</div>
+</div>
+<!-- Alert Action Area -->
+<div class="bg-red-900 bg-opacity-20 border border-red-800 rounded-xl p-4 flex items-center justify-between relative overflow-hidden drift-alert">
+<div>
+<h4 class="text-red-500 font-bold text-lg">CRITICAL ALERT</h4>
+<p class="text-xs text-red-300 mt-1">Immediate action required.</p>
+<button class="mt-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-1.5 px-3 rounded transition-colors">
+<i class="fas fa-sync-alt mr-1"></i> Retrain Model
+                        </button>
+</div>
+<div class="alert-stamp px-4 py-2 font-black text-2xl uppercase border-4 rounded-lg tracking-widest">
+                        DRIFT DETECTED
+                    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-12 py-3 border-t border-gray-800 flex justify-between items-center text-gray-600 text-xs">
+<p>Adobe Systems - FDP Session</p>
+<p>Slide 26</p>
+</div>
+<script>
+        // Chart.js initialization
+        const ctx = document.getElementById('driftChart').getContext('2d');
+        
+        const driftChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['General Health', 'Respiratory', 'Trauma', 'Admin/Billing'],
+                datasets: [
+                    {
+                        label: 'Baseline (Jan)',
+                        data: [70, 10, 10, 10],
+                        backgroundColor: 'rgba(37, 99, 235, 0.6)', // Blue-600
+                        borderColor: 'rgba(37, 99, 235, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    },
+                    {
+                        label: 'Current (Feb)',
+                        data: [20, 70, 5, 5],
+                        backgroundColor: 'rgba(239, 68, 68, 0.7)', // Red-500
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false // Using custom legend in HTML
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                        titleColor: '#fff',
+                        bodyColor: '#cbd5e1',
+                        padding: 12,
+                        borderColor: '#334155',
+                        borderWidth: 1,
+                        displayColors: true,
+                        titleFont: { family: "'Inter', sans-serif", size: 13 },
+                        bodyFont: { family: "'JetBrains Mono', monospace", size: 12 },
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: {
+                                family: "'Inter', sans-serif",
+                                size: 11,
+                                weight: 500
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {
+                            color: '#334155',
+                            drawBorder: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            color: '#64748b',
+                            callback: function(value) { return value + '%' },
+                            font: {
+                                family: "'JetBrains Mono', monospace",
+                                size: 10
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+    </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

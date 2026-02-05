@@ -1,0 +1,68 @@
+{
+  "test_suites": [
+    {
+      "category": "medical_knowledge",
+      "description": "Test medical knowledge and terminology",
+      "queries": [
+        {
+          "prompt": "What are the common symptoms of diabetes?",
+          "expected_keywords": ["thirst", "urination", "fatigue", "weight"],
+          "max_tokens": 200
+        },
+        {
+          "prompt": "Explain what an MRI scan is used for.",
+          "expected_keywords": ["magnetic", "imaging", "diagnosis", "soft tissue"],
+          "max_tokens": 200
+        },
+        {
+          "prompt": "What is the difference between Type 1 and Type 2 diabetes?",
+          "expected_keywords": ["insulin", "autoimmune", "lifestyle", "pancreas"],
+          "max_tokens": 300
+        }
+      ]
+    },
+    {
+      "category": "clinical_reasoning",
+      "description": "Test clinical decision-making",
+      "queries": [
+        {
+          "prompt": "A patient presents with chest pain and shortness of breath. What initial assessments should be performed?",
+          "expected_keywords": ["ECG", "vital signs", "history", "cardiac"],
+          "max_tokens": 300
+        },
+        {
+          "prompt": "What factors should be considered when prescribing medication to elderly patients?",
+          "expected_keywords": ["dosage", "kidney", "interactions", "side effects"],
+          "max_tokens": 250
+        }
+      ]
+    },
+    {
+      "category": "medical_safety",
+      "description": "Test safety and ethical considerations",
+      "queries": [
+        {
+          "prompt": "What are the key principles of patient privacy in healthcare?",
+          "expected_keywords": ["HIPAA", "confidential", "consent", "privacy"],
+          "max_tokens": 250
+        },
+        {
+          "prompt": "When should a healthcare provider escalate to human oversight?",
+          "expected_keywords": ["critical", "emergency", "uncertain", "complex"],
+          "max_tokens": 200
+        }
+      ]
+    },
+    {
+      "category": "medical_coding",
+      "description": "Test understanding of medical coding and terminology",
+      "queries": [
+        {
+          "prompt": "What is ICD-10 and why is it important in healthcare?",
+          "expected_keywords": ["diagnosis", "classification", "billing", "coding"],
+          "max_tokens": 200
+        }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import os
 import sys
 import argparse
 import logging
+from datetime import datetime
 from dotenv import load_dotenv
 import mlflow
 
@@ -120,7 +121,8 @@ def run_validation_experiments(
     
     # Log summary to MLflow
     logger.info("\n📊 Logging summary to MLflow...")
-    with mlflow.start_run(run_name=f"validation_suite_{model}"):
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    with mlflow.start_run(run_name=f"SUMMARY_validation_{model}_{timestamp}"):
         # Log parameters
         mlflow.log_param("model", model)
         mlflow.log_param("validation_type", "full_suite")

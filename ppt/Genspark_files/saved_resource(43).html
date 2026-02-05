@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<!-- saved from url=(0091)https://www.genspark.ai/edit_slides?project_id=fbd633be-fd21-40c9-bcf2-214a05997382&index=0 -->
+<html lang="en" data-theme="light" style="overflow: hidden;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Agenda</title>
+<link href="./tailwind.min.css" rel="stylesheet">
+<link href="./css2" rel="stylesheet">
+<link href="./all.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0f172a; /* Slate 900 */
+        }
+        .bg-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231e293b' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .agenda-card {
+            background-color: rgba(30, 41, 59, 0.7);
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .agenda-card:hover {
+            background-color: rgba(30, 41, 59, 0.9);
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: 40px;
+            width: 2px;
+            background-color: #334155;
+            z-index: 0;
+        }
+    </style>
+<style id="editor-only-styles">
+    @media (max-width: 768px) {
+      body {
+        padding: 16px 30px;
+      }
+    }
+  </style><script data-source="html-editor">// 防止重复注入脚本
+;(function () {
+  if (window.contextMenuManager) {
+    return
+  }
+
+  // 上下文菜单管理器 - 只负责检测和位置计算
+  class ContextMenuManager {
+    constructor() {
+      this.currentBlockElement = null
+      this.onPositionUpdate = null
+
+      this.init()
+    }
+
+    init() {
+      // 监听选择变化
+      document.addEventListener('selectionchange', () => {
+        this.updatePosition()
+      })
+
+      // 监听点击事件
+      document.addEventListener('click', e => {
+        // 特殊处理图片点击
+        if (e.target.tagName && e.target.tagName.toLowerCase() === 'img') {
+          this.handleImageClick(e.target)
+        } else {
+          this.updatePosition()
+        }
+      })
+
+      // 监听键盘事件
+      document.addEventListener('keyup', () => {
+        this.updatePosition()
+      })
+    }
+
+    updatePosition() {
+      const selection = window.getSelection()
+
+      if (!selection || selection.rangeCount === 0) {
+        this.hideButton()
+        return
+      }
+
+      const range = selection.getRangeAt(0)
+      let focusNode = selection.focusNode
+
+      if (!focusNode) {
+        this.hideButton()
+        return
+      }
+
+      // 找到最近的块级元素
+      const blockElement = this.findNearestBlockElement(focusNode)
+
+      if (!blockElement || blockElement === document.body) {
+        this.hideButton()
+        return
+      }
+
+      // 如果块级元素没有变化，不需要更新
+      if (this.currentBlockElement === blockElement) {
+        return
+      }
+
+      this.currentBlockElement = blockElement
+      this.showButton(blockElement)
+    }
+
+    handleImageClick(imgElement) {
+      // 手动创建选择范围来包含图片元素
+      const selection = window.getSelection()
+      const range = document.createRange()
+
+      try {
+        // 选中整个图片元素
+        range.selectNode(imgElement)
+        selection.removeAllRanges()
+        selection.addRange(range)
+
+        // 找到图片所在的块级元素
+        const blockElement = this.findNearestBlockElement(imgElement)
+
+        if (blockElement && blockElement !== document.body) {
+          this.currentBlockElement = blockElement
+          this.showButton(blockElement)
+        } else {
+          this.hideButton()
+        }
+      } catch (error) {
+        console.warn('Failed to create selection for image:', error)
+        // 如果创建选择失败，回退到普通的位置更新
+        this.updatePosition()
+      }
+    }
+
+    findNearestBlockElement(node) {
+      // 如果是文本节点，从父元素开始查找
+      if (node.nodeType === Node.TEXT_NODE) {
+        node = node.parentElement
+      }
+
+      // 向上查找块级元素
+      while (node && node !== document.body) {
+        const tagName = node.tagName ? node.tagName.toLowerCase() : ''
+
+        // 检查是否为块级元素
+        if (this.isBlockElement(tagName)) {
+          return node
+        }
+
+        node = node.parentElement
+      }
+
+      return null
+    }
+
+    isBlockElement(tagName) {
+      const blockElements = [
+        'p',
+        'div',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'ul',
+        'ol',
+        'li',
+        'blockquote',
+        'pre',
+        'table',
+        'tr',
+        'td',
+        'th',
+        'section',
+        'article',
+        'header',
+        'footer',
+        'main',
+        'aside',
+        'nav',
+      ]
+
+      return blockElements.includes(tagName)
+    }
+
+    showButton(blockElement) {
+      if (!blockElement) return
+
+      const rect = blockElement.getBoundingClientRect()
+
+      // 计算按钮在页面中的位置（相对于 iframe）
+      const position = {
+        top: rect.top,
+        left: 30, // 固定在左侧30px位置
+        blockElement: blockElement,
+        visible: true,
+      }
+
+      // 通知外部位置更新
+      if (this.onPositionUpdate) {
+        this.onPositionUpdate(position)
+      }
+    }
+
+    hideButton() {
+      this.currentBlockElement = null
+
+      // 通知外部隐藏按钮
+      if (this.onPositionUpdate) {
+        this.onPositionUpdate({
+          visible: false,
+          blockElement: null,
+        })
+      }
+    }
+
+    setPositionUpdateHandler(handler) {
+      this.onPositionUpdate = handler
+    }
+
+    destroy() {
+      document.removeEventListener('selectionchange', this.updatePosition)
+      document.removeEventListener('click', this.updatePosition)
+      document.removeEventListener('keyup', this.updatePosition)
+    }
+  }
+
+  // 创建全局实例
+  window.contextMenuManager = new ContextMenuManager()
+
+  // 暴露设置位置更新处理器的方法
+  window.setContextMenuPositionHandler = handler => {
+    window.contextMenuManager.setPositionUpdateHandler(handler)
+  }
+
+  // 暴露销毁方法
+  window.destroyContextMenuManager = () => {
+    if (window.contextMenuManager) {
+      window.contextMenuManager.destroy()
+      window.contextMenuManager = null
+    }
+  }
+})()
+</script></head>
+<body class="w-[1280px] h-[720px] bg-grid text-white flex flex-col relative" contenteditable="true" style="overflow: hidden; cursor: text;" data-new-gr-c-s-loaded="14.1271.0" data-new-gr-c-s-check-loaded="14.1271.0" data-gr-ext-installed="">
+<!-- Top Decorative Line -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500"></div>
+<!-- Header -->
+<div class="flex items-center justify-between px-12 py-8 border-b border-gray-800 bg-gray-900 bg-opacity-80">
+<h1 class="text-3xl font-bold tracking-tight text-white flex items-center">
+<span class="w-2 h-8 bg-blue-500 mr-4 rounded-sm"></span>
+            Session Agenda
+        </h1>
+<div class="flex items-center space-x-4">
+<div class="text-right">
+<p class="text-xs text-gray-400 font-mono uppercase tracking-widest">Total Duration</p>
+<p class="text-xl font-bold text-blue-400">105 Minutes</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center text-blue-300">
+<i class="far fa-clock"></i>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div class="flex-1 px-12 py-8 flex space-x-8">
+<!-- Left Column: Parts 1 & 2 -->
+<div class="flex-1 flex flex-col space-y-6 relative pl-8">
+<!-- Timeline Line -->
+<div class="absolute left-0 top-4 bottom-4 w-0.5 bg-gray-700"></div>
+<!-- Part 1 -->
+<div class="relative agenda-card p-6 rounded-lg">
+<div class="absolute left-[-37px] top-6 w-4 h-4 rounded-full bg-teal-500 border-4 border-gray-900 z-10"></div>
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-teal-400">Part 1: Cloud Platforms</h3>
+<span class="bg-gray-800 text-gray-300 px-2 py-1 rounded text-xs font-mono border border-gray-700">15 min</span>
+</div>
+<ul class="space-y-2 text-gray-300 text-sm ml-1">
+<li class="flex items-center"><i class="fas fa-chevron-right text-teal-600 mr-2 text-xs"></i>AWS, Azure, GCP overview</li>
+<li class="flex items-center"><i class="fas fa-chevron-right text-teal-600 mr-2 text-xs"></i>ML services comparison</li>
+<li class="flex items-center"><i class="fas fa-chevron-right text-teal-600 mr-2 text-xs"></i>Healthcare considerations</li>
+<li class="flex items-center"><i class="fas fa-comment-dots text-gray-500 mr-2 text-xs"></i>Discussion</li>
+</ul>
+</div>
+<!-- Part 2 -->
+<div class="relative agenda-card p-6 rounded-lg">
+<div class="absolute left-[-37px] top-6 w-4 h-4 rounded-full bg-blue-500 border-4 border-gray-900 z-10"></div>
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-blue-400">Part 2: Edge AI</h3>
+<span class="bg-gray-800 text-gray-300 px-2 py-1 rounded text-xs font-mono border border-gray-700">15 min</span>
+</div>
+<ul class="space-y-2 text-gray-300 text-sm ml-1">
+<li class="flex items-center"><i class="fas fa-chevron-right text-blue-600 mr-2 text-xs"></i>What is Edge AI?</li>
+<li class="flex items-center"><i class="fas fa-chevron-right text-blue-600 mr-2 text-xs"></i>Why critical for healthcare</li>
+<li class="flex items-center"><i class="fas fa-chevron-right text-blue-600 mr-2 text-xs"></i>Real-world use cases</li>
+<li class="flex items-center"><i class="fas fa-network-wired text-blue-600 mr-2 text-xs"></i>Edge vs Cloud vs Hybrid</li>
+</ul>
+</div>
+</div>
+<!-- Right Column: Parts 3, 4 & Wrap-up -->
+<div class="flex-1 flex flex-col space-y-6 relative pl-8">
+<!-- Timeline Line -->
+<div class="absolute left-0 top-4 bottom-4 w-0.5 bg-gray-700"></div>
+<!-- Part 3 -->
+<div class="relative agenda-card p-6 rounded-lg border-l-4 border-purple-500">
+<div class="absolute left-[-37px] top-6 w-4 h-4 rounded-full bg-purple-500 border-4 border-gray-900 z-10"></div>
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-purple-400">Part 3: Model Validation</h3>
+<span class="bg-gray-800 text-gray-300 px-2 py-1 rounded text-xs font-mono border border-gray-700">25 min</span>
+</div>
+<div class="bg-purple-900 bg-opacity-20 p-2 rounded mb-2 border border-purple-800 border-opacity-30">
+<p class="text-xs text-purple-300 font-semibold"><i class="fas fa-laptop-code mr-1"></i> Live Demo + Walkthrough</p>
+</div>
+<ul class="space-y-2 text-gray-300 text-sm ml-1">
+<li class="flex items-center"><i class="fas fa-chevron-right text-purple-600 mr-2 text-xs"></i>Quality &amp; safety testing</li>
+<li class="flex items-center"><i class="fas fa-chevron-right text-purple-600 mr-2 text-xs"></i>MLflow tracking</li>
+<li class="flex items-center"><i class="fas fa-search-plus text-purple-600 mr-2 text-xs"></i>Deep dive on results</li>
+</ul>
+</div>
+<!-- Part 4 -->
+<div class="relative agenda-card p-6 rounded-lg border-l-4 border-orange-500">
+<div class="absolute left-[-37px] top-6 w-4 h-4 rounded-full bg-orange-500 border-4 border-gray-900 z-10"></div>
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-xl font-bold text-orange-400">Part 4: Model Monitoring</h3>
+<span class="bg-gray-800 text-gray-300 px-2 py-1 rounded text-xs font-mono border border-gray-700">25 min</span>
+</div>
+<div class="bg-orange-900 bg-opacity-20 p-2 rounded mb-2 border border-orange-800 border-opacity-30">
+<p class="text-xs text-orange-300 font-semibold"><i class="fas fa-laptop-code mr-1"></i> Live Demo + Walkthrough</p>
+</div>
+<ul class="space-y-2 text-gray-300 text-sm ml-1">
+<li class="flex items-center"><i class="fas fa-chevron-right text-orange-600 mr-2 text-xs"></i>Drift detection concepts</li>
+<li class="flex items-center"><i class="fas fa-chart-line text-orange-600 mr-2 text-xs"></i>Dashboard visualization</li>
+<li class="flex items-center"><i class="fas fa-chevron-right text-orange-600 mr-2 text-xs"></i>Production implications</li>
+</ul>
+</div>
+<!-- Wrap-up -->
+<div class="relative bg-gray-800 bg-opacity-50 p-4 rounded-lg flex items-center justify-between border border-gray-700">
+<div class="absolute left-[-37px] top-1/2 transform -translate-y-1/2 w-4 h-4 rounded-full bg-gray-500 border-4 border-gray-900 z-10"></div>
+<div class="flex flex-col">
+<span class="font-bold text-white">Wrap-up + Q&amp;A</span>
+<span class="text-xs text-gray-400">Summary &amp; Discussion</span>
+</div>
+<span class="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs font-mono">25 min</span>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-12 py-4 border-t border-gray-800 flex justify-between items-center text-xs text-gray-500 font-mono">
+<p>9:30 AM - 11:15 AM</p>
+<p>Comprehensive MLOps Session</p>
+</div>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

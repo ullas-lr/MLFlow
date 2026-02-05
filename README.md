@@ -93,9 +93,64 @@ python run_experiments.py
 # Run with custom parameters
 python run_experiments.py --model llama2 --num-runs 10
 
-# Run monitoring dashboard
-python monitoring_dashboard.py
+# Run healthcare-specific demo
+python demo_healthcare.py phi3:mini
+
+# Run drift detection demo
+python demo_drift_detection.py phi3:mini
+
+# Launch drift detection dashboard
+python drift_dashboard.py
 ```
+
+## 🔍 Drift Detection (NEW!)
+
+Detect and monitor data drift and model drift in your ML systems:
+
+### Quick Test
+```bash
+# Verify drift detection works (30 seconds)
+python test_drift_detector.py
+```
+
+### What's Included
+
+**Data Drift Detection**:
+- Prompt length distribution changes (Kolmogorov-Smirnov test)
+- Keyword frequency shifts
+- Category distribution changes (KL Divergence)
+
+**Model Drift Detection**:
+- Quality score degradation (Mann-Whitney U test)
+- Safety score changes
+- Latency increases
+- Performance degradation alerts
+
+**Healthcare-Specific Scenarios**:
+- Seasonal disease patterns (summer → winter/flu season)
+- Demographic shifts (age distribution changes)
+- New medical terminology (COVID-19, new diseases)
+- Treatment protocol updates
+
+### Drift Detection Demo
+
+```bash
+# Run complete drift detection demo
+python demo_drift_detection.py phi3:mini
+
+# Launch drift visualization dashboard
+python drift_dashboard.py
+# Open http://localhost:8051
+```
+
+**View Results**:
+- MLflow UI: Experiment "healthcare_drift_detection"
+- Drift Dashboard: Interactive visualizations with alerts
+
+### Documentation
+- **Quick Start**: `DRIFT_DEMO_QUICKSTART.md` - Get started in 5 minutes
+- **Complete Guide**: `DRIFT_DETECTION_GUIDE.md` - Detailed explanations
+- **Session Demo**: `SESSION_DEMO_SCRIPT.md` - Presentation walkthrough
 
 ## Project Structure
 
@@ -115,11 +170,12 @@ mlops/
 │   └── monitoring.py           # Observability utilities
 ├── experiments/
 │   ├── validation_suite.py     # Model validation tests
-│   └── benchmark_queries.json  # Test queries and expected outputs
+│   └── healthcare_queries.json # Healthcare test queries
 ├── run_experiments.py          # Main experiment runner
-├── monitoring_dashboard.py     # Simple monitoring dashboard
-└── notebooks/
-    └── analysis.ipynb          # Jupyter notebook for analysis
+├── demo_healthcare.py          # Healthcare validation demo
+├── demo_drift_detection.py     # Drift detection demo
+├── drift_dashboard.py          # Drift visualization dashboard
+└── test_drift_detector.py      # Drift detector tests
 
 ```
 
@@ -182,14 +238,14 @@ results = runner.run_validation_suite()
 2. **DagsHub (if configured):**
    Visit your DagsHub repository URL
 
-### Monitoring
+### Drift Detection Dashboard
 
 ```bash
-# Start monitoring dashboard
-python monitoring_dashboard.py
+# Start drift detection dashboard
+python drift_dashboard.py
 ```
 
-Visit: http://localhost:8050
+Visit: http://localhost:8051
 
 ## Metrics Tracked
 

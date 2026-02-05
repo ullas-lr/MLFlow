@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Alerts, Architecture &amp; Discussion</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0f172a; /* Slate 900 */
+        }
+        .bg-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231e293b' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .flow-node {
+            background-color: rgba(30, 41, 59, 0.95);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+            width: 145px;
+            height: 130px;
+        }
+        .flow-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            border-color: #60a5fa;
+        }
+        .flow-arrow {
+            flex: 1;
+            height: 2px;
+            background-color: #475569;
+            position: relative;
+            margin: 0 4px;
+        }
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #475569;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+        .icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .data-zone {
+            border: 2px dashed #3b82f6; /* blue-500 */
+            background-color: rgba(30, 58, 138, 0.1);
+        }
+        .process-zone {
+            border: 2px dashed #8b5cf6; /* violet-500 */
+            background-color: rgba(76, 29, 149, 0.1);
+        }
+        .ui-zone {
+            border: 2px dashed #f97316; /* orange-500 */
+            background-color: rgba(124, 45, 18, 0.1);
+        }
+        .zone-label {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0 10px;
+            background-color: #0f172a;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        .alert-level {
+            transition: all 0.2s;
+        }
+        .alert-level:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="w-[1280px] h-[720px] bg-grid text-white flex flex-col" data-new-gr-c-s-check-loaded="14.1271.0" data-gr-ext-installed="">
+<!-- Top Bar -->
+<div class="w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500"></div>
+<!-- Header Section -->
+<div class="px-12 pt-10 pb-6 flex justify-between items-end border-b border-gray-800">
+<div>
+<div class="flex items-center space-x-3 mb-2">
+<span class="bg-purple-900 text-purple-300 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider border border-purple-800">Part 4</span>
+<span class="text-gray-400 text-sm font-medium tracking-wide">Model Monitoring</span>
+</div>
+<h1 class="text-4xl font-bold text-white tracking-tight">Alerts, Architecture &amp; Discussion</h1>
+</div>
+<div class="flex items-center space-x-2 text-gray-500 text-sm font-mono">
+<i class="fas fa-network-wired"></i>
+<span>System Architecture</span>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 px-12 py-8 flex flex-col">
+<!-- Architecture Diagram Area -->
+<div class="flex-1 bg-gray-800 bg-opacity-30 rounded-xl border border-gray-700 p-8 mb-6 relative flex items-center justify-center">
+<!-- Zone containers -->
+<div class="absolute top-6 left-6 bottom-6 w-[16%] data-zone rounded-xl">
+<span class="zone-label text-blue-400 border border-blue-900">Data Layer</span>
+</div>
+<div class="absolute top-6 left-[24%] bottom-6 w-[48%] process-zone rounded-xl">
+<span class="zone-label text-violet-400 border border-violet-900">Processing Layer (Backend)</span>
+</div>
+<div class="absolute top-6 right-6 bottom-6 w-[26%] ui-zone rounded-xl">
+<span class="zone-label text-orange-400 border border-orange-900">Presentation Layer</span>
+</div>
+<!-- Flow Nodes -->
+<div class="flex items-center justify-between w-full relative z-10 px-2">
+<!-- Node 1: MLflow DB -->
+<div class="flow-node border-blue-600">
+<div class="icon-box bg-blue-900 text-blue-400">
+<i class="fas fa-database"></i>
+</div>
+<h3 class="font-bold text-sm text-white">MLflow DB</h3>
+<p class="text-[10px] text-gray-400 mt-1">Metrics Store</p>
+</div>
+<div class="flow-arrow"></div>
+<!-- Node 2: Backend -->
+<div class="flow-node border-violet-600">
+<div class="icon-box bg-violet-900 text-violet-400">
+<i class="fas fa-server"></i>
+</div>
+<h3 class="font-bold text-sm text-white">Backend</h3>
+<p class="text-[10px] text-gray-400 mt-1">Python API</p>
+</div>
+<div class="flow-arrow"></div>
+<!-- Node 3: Drift Module -->
+<div class="flow-node border-violet-500">
+<div class="icon-box bg-violet-800 text-violet-300">
+<i class="fas fa-microchip"></i>
+</div>
+<h3 class="font-bold text-sm text-white">Drift Module</h3>
+<p class="text-[10px] text-gray-400 mt-1">Analysis Engine</p>
+</div>
+<div class="flow-arrow"></div>
+<!-- Node 4: Stat Tests -->
+<div class="flow-node border-violet-400">
+<div class="icon-box bg-violet-700 text-white">
+<i class="fas fa-calculator"></i>
+</div>
+<h3 class="font-bold text-sm text-white">Stat Tests</h3>
+<p class="text-[10px] text-gray-400 mt-1">KS / Mann-Whitney</p>
+</div>
+<div class="flow-arrow"></div>
+<!-- Node 5: Dash Frontend -->
+<div class="flow-node border-orange-600">
+<div class="icon-box bg-orange-900 text-orange-400">
+<i class="fas fa-chart-line"></i>
+</div>
+<h3 class="font-bold text-sm text-white">Dash App</h3>
+<p class="text-[10px] text-gray-400 mt-1">Visualization</p>
+</div>
+<div class="flow-arrow"></div>
+<!-- Node 6: Browser -->
+<div class="flow-node border-orange-500">
+<div class="icon-box bg-orange-800 text-white">
+<i class="fas fa-desktop"></i>
+</div>
+<h3 class="font-bold text-sm text-white">Browser</h3>
+<p class="text-[10px] text-gray-400 mt-1">User View</p>
+</div>
+</div>
+<!-- Refresh Note -->
+<div class="absolute bottom-2 right-1/2 transform translate-x-1/2 text-[10px] text-gray-500 font-mono flex items-center bg-gray-900 px-3 py-1 rounded-full border border-gray-700">
+<i class="fas fa-sync-alt animate-spin mr-2 text-blue-500"></i>
+<span>Auto-refresh cycle: 60 seconds</span>
+</div>
+</div>
+<!-- Bottom Section -->
+<div class="h-[32%] flex space-x-6">
+<!-- Alert Levels -->
+<div class="w-3/5 bg-gray-800 bg-opacity-50 rounded-xl p-5 border-l-4 border-violet-500">
+<div class="flex items-center mb-3">
+<div class="w-8 h-8 rounded bg-violet-900 flex items-center justify-center text-violet-400 mr-3">
+<i class="fas fa-bell"></i>
+</div>
+<h3 class="text-xl font-bold text-white">Alert Thresholds &amp; Actions</h3>
+</div>
+<div class="grid grid-cols-1 gap-2">
+<!-- Green -->
+<div class="alert-level flex items-center p-2 rounded border-l-4 border-green-500 bg-gray-900 bg-opacity-50">
+<div class="w-24 font-bold text-green-400 text-sm">NORMAL</div>
+<div class="flex-1 text-xs text-gray-300 flex items-center justify-between">
+<p>&lt; 5% Quality Drop • &lt; 20% Latency Increase</p>
+<span class="text-gray-500 italic">No action needed</span>
+</div>
+</div>
+<!-- Orange -->
+<div class="alert-level flex items-center p-2 rounded border-l-4 border-yellow-500 bg-gray-900 bg-opacity-50">
+<div class="w-24 font-bold text-yellow-400 text-sm">WARNING</div>
+<div class="flex-1 text-xs text-gray-300 flex items-center justify-between">
+<p>5-10% Quality Drop • 20-50% Latency Increase</p>
+<span class="text-yellow-200">Investigate</span>
+</div>
+</div>
+<!-- Red -->
+<div class="alert-level flex items-center p-2 rounded border-l-4 border-red-500 bg-gray-900 bg-opacity-50">
+<div class="w-24 font-bold text-red-500 text-sm">CRITICAL</div>
+<div class="flex-1 text-xs text-gray-300 flex items-center justify-between">
+<p>&gt; 10% Quality Drop • &gt; 50% Latency Increase</p>
+<span class="text-red-300 font-semibold">IMMEDIATE RETRAIN</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Discussion -->
+<div class="w-2/5 bg-gray-800 bg-opacity-50 rounded-xl p-5 border-l-4 border-blue-500">
+<div class="flex items-center mb-3">
+<div class="w-8 h-8 rounded bg-blue-900 flex items-center justify-center text-blue-400 mr-3">
+<i class="fas fa-comments"></i>
+</div>
+<h3 class="text-xl font-bold text-white">Discussion</h3>
+</div>
+<ul class="space-y-3">
+<li class="flex items-start text-gray-300 text-sm">
+<i class="fas fa-question-circle text-blue-500 mt-1 mr-3"></i>
+<div>
+<p class="font-semibold text-white">Current Monitoring?</p>
+<p class="text-xs text-gray-400">How do you track production models today?</p>
+</div>
+</li>
+<li class="flex items-start text-gray-300 text-sm">
+<i class="fas fa-exclamation-triangle text-blue-500 mt-1 mr-3"></i>
+<div>
+<p class="font-semibold text-white">Drift Experiences?</p>
+<p class="text-xs text-gray-400">Have you seen silent failures (e.g. seasonal)?</p>
+</div>
+</li>
+<li class="flex items-start text-gray-300 text-sm">
+<i class="fas fa-bell-slash text-blue-500 mt-1 mr-3"></i>
+<div>
+<p class="font-semibold text-white">Alert Fatigue?</p>
+<p class="text-xs text-gray-400">How do you ensure alerts remain actionable?</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-12 py-3 border-t border-gray-800 flex justify-between items-center text-gray-600 text-xs">
+<p>Adobe Systems - FDP Session</p>
+<p>Slide 32</p>
+</div>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Deployment Options</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0f172a; /* Slate 900 */
+        }
+        .bg-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231e293b' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .matrix-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+        }
+        .matrix-table th, .matrix-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        .matrix-table th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            background-color: rgba(30, 41, 59, 0.8);
+        }
+        .matrix-table tr:last-child td {
+            border-bottom: none;
+        }
+        .matrix-table td:first-child {
+            font-weight: 600;
+            color: #e2e8f0;
+            background-color: rgba(30, 41, 59, 0.4);
+            border-right: 1px solid #334155;
+            width: 15%;
+        }
+        .decision-card {
+            background-color: rgba(30, 41, 59, 0.6);
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .decision-card:hover {
+            background-color: rgba(30, 41, 59, 0.9);
+            transform: translateY(-2px);
+            border-color: #64748b;
+        }
+    </style>
+</head>
+<body class="w-[1280px] h-[720px] bg-grid text-white flex flex-col" data-new-gr-c-s-check-loaded="14.1271.0" data-gr-ext-installed="">
+<!-- Top Bar -->
+<div class="w-full h-1 bg-gradient-to-r from-teal-500 via-blue-500 to-purple-500"></div>
+<!-- Header Section -->
+<div class="px-12 pt-10 pb-6 flex justify-between items-end border-b border-gray-800">
+<div>
+<div class="flex items-center space-x-3 mb-2">
+<span class="bg-indigo-900 text-indigo-300 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider border border-indigo-800">Production</span>
+<span class="text-gray-400 text-sm font-medium tracking-wide">Deployment Strategy</span>
+</div>
+<h1 class="text-4xl font-bold text-white tracking-tight">Deployment Options</h1>
+</div>
+<div class="flex items-center space-x-2 text-gray-500 text-sm font-mono">
+<i class="fas fa-server"></i>
+<span>Infrastructure Selection</span>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 px-12 py-6 flex flex-col overflow-hidden">
+<!-- Comparison Matrix Table -->
+<div class="bg-gray-800 bg-opacity-40 border border-gray-700 rounded-xl overflow-hidden mb-6 shadow-xl">
+<table class="matrix-table">
+<thead>
+<tr>
+<th>Feature</th>
+<th class="text-teal-400"><i class="fas fa-microchip mr-2"></i>Edge Only</th>
+<th class="text-blue-400"><i class="fas fa-cloud mr-2"></i>Cloud Only</th>
+<th class="text-purple-400"><i class="fas fa-network-wired mr-2"></i>Hybrid</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr>
+<td>Infrastructure</td>
+<td class="text-teal-300 font-bold">Hospital Server / Device</td>
+<td class="text-gray-400">AWS / Azure / GCP</td>
+<td class="text-gray-300">Distributed Mix</td>
+</tr>
+<tr>
+<td>Connectivity</td>
+<td class="text-teal-300 font-bold">No Internet Required</td>
+<td class="text-gray-400">Always-on Internet</td>
+<td class="text-purple-300">Syncs when available</td>
+</tr>
+<tr>
+<td>Security</td>
+<td class="text-teal-300 font-bold">Maximum (Air-gapped)</td>
+<td class="text-gray-400">VPC / Encryption</td>
+<td class="text-gray-300">PHI Local, Metadata Cloud</td>
+</tr>
+<tr>
+<td>Latency</td>
+<td class="text-gray-300">Real-time (&lt;10ms)</td>
+<td class="text-gray-400">Variable (Network)</td>
+<td class="text-purple-300">Real-time Inference</td>
+</tr>
+<tr>
+<td>Best For</td>
+<td class="text-gray-300">ER, Rural Clinics, ICU</td>
+<td class="text-gray-400">Research, Large Scale</td>
+<td class="text-purple-300 font-bold">Enterprise Health Systems</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Decision Guidance Section -->
+<div class="flex-1 flex space-x-6">
+<!-- Edge Card -->
+<div class="decision-card flex-1 rounded-xl p-5 flex flex-col relative overflow-hidden group border-t-4 border-teal-500 bg-teal-900 bg-opacity-10">
+<div class="absolute right-0 top-0 bg-teal-600 text-white text-[10px] px-2 py-1 rounded-bl font-bold uppercase">Demo Today</div>
+<div class="flex items-center mb-3">
+<div class="w-8 h-8 rounded bg-teal-900 flex items-center justify-center text-teal-400 mr-3 border border-teal-800">
+<i class="fas fa-microchip"></i>
+</div>
+<h3 class="font-bold text-lg text-white">1. Edge Only</h3>
+</div>
+<ul class="space-y-3 flex-1">
+<li class="flex items-start">
+<i class="fas fa-check-circle text-teal-500 mt-1 mr-2 text-xs"></i>
+<p class="text-sm text-gray-300">Running on Hospital Server</p>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-teal-500 mt-1 mr-2 text-xs"></i>
+<p class="text-sm text-gray-300">Zero data transmission</p>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-teal-500 mt-1 mr-2 text-xs"></i>
+<p class="text-sm text-gray-300">Maximum Privacy Focus</p>
+</li>
+</ul>
+</div>
+<!-- Cloud Card -->
+<div class="decision-card flex-1 rounded-xl p-5 flex flex-col relative overflow-hidden group border-t-4 border-blue-500">
+<div class="flex items-center mb-3">
+<div class="w-8 h-8 rounded bg-blue-900 flex items-center justify-center text-blue-400 mr-3 border border-blue-800">
+<i class="fas fa-cloud"></i>
+</div>
+<h3 class="font-bold text-lg text-white">2. Cloud Only</h3>
+</div>
+<ul class="space-y-3 flex-1">
+<li class="flex items-start">
+<i class="fas fa-check text-blue-500 mt-1 mr-2 text-xs"></i>
+<p class="text-sm text-gray-300">Managed Services (SageMaker)</p>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check text-blue-500 mt-1 mr-2 text-xs"></i>
+<p class="text-sm text-gray-300">Instant massive scalability</p>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check text-blue-500 mt-1 mr-2 text-xs"></i>
+<p class="text-sm text-gray-300">Lower maintenance overhead</p>
+</li>
+</ul>
+</div>
+<!-- Hybrid Card -->
+<div class="decision-card flex-1 rounded-xl p-5 flex flex-col relative overflow-hidden group border-t-4 border-purple-500 bg-purple-900 bg-opacity-20">
+<div class="absolute right-0 top-0 bg-purple-600 text-white text-[10px] px-2 py-1 rounded-bl font-bold uppercase">Best Practice</div>
+<div class="flex items-center mb-3">
+<div class="w-8 h-8 rounded bg-purple-900 flex items-center justify-center text-purple-400 mr-3 border border-purple-800">
+<i class="fas fa-network-wired"></i>
+</div>
+<h3 class="font-bold text-lg text-white">3. Hybrid (Best)</h3>
+</div>
+<ul class="space-y-3 flex-1">
+<li class="flex items-start">
+<i class="fas fa-check-circle text-purple-500 mt-1 mr-2 text-xs"></i>
+<p class="text-sm text-gray-300">Inference at Edge (Speed)</p>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-purple-500 mt-1 mr-2 text-xs"></i>
+<p class="text-sm text-gray-300">Tracking/Training in Cloud</p>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-purple-500 mt-1 mr-2 text-xs"></i>
+<p class="text-sm text-gray-300">Best of both worlds</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-12 py-3 border-t border-gray-800 flex justify-between items-center text-gray-600 text-xs">
+<p>Adobe Systems - FDP Session</p>
+<p>Slide 34</p>
+</div>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

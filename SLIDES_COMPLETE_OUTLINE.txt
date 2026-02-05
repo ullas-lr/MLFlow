@@ -1,0 +1,1254 @@
+======================================================================
+COMPLETE FDP SESSION SLIDES
+Cloud Platforms, Edge AI, Model Validation & Monitoring
+Ullas L R - Feb 6, 2026
+======================================================================
+
+SLIDE 1: TITLE
+Cloud Platforms, Edge AI, Model Validation & Monitoring
+Complete MLOps Pipeline from Cloud to Edge
+
+Ullas L R
+FDP Session - Feb 2, 2026
+
+==========
+
+SLIDE 2: AGENDA
+Part 1: Cloud Platforms (15 min)
+• AWS, Azure, GCP overview
+• ML services comparison
+• Healthcare considerations
+• Discussion
+
+Part 2: Edge AI (15 min)
+• What is Edge AI?
+• Why critical for healthcare
+• Real-world use cases
+• Edge vs Cloud vs Hybrid
+• Discussion
+
+Part 3: Model Validation (25 min)
+• Quality & safety testing
+• Live demo + walkthrough
+• MLflow tracking
+• Deep dive on results
+• Discussion
+
+Part 4: Model Monitoring (25 min)
+• Drift detection concepts
+• Live demo + walkthrough
+• Dashboard visualization
+• Production implications
+• Discussion
+
+Wrap-up (10 min) + Q&A (15 min)
+Total: 105 minutes (9:30-11:15 AM)
+
+==========
+
+======== PART 1: CLOUD PLATFORMS ========
+
+SLIDE 3: CLOUD PLATFORMS OVERVIEW
+Three Major Providers:
+
+AWS (Amazon Web Services)
+• ML: SageMaker, Bedrock, Comprehend Medical
+• Compute: EC2, Lambda
+• Market leader, most mature
+
+Azure (Microsoft)
+• ML: Azure ML, Cognitive Services, Health Bot
+• Compute: VMs, Container Instances
+• Enterprise focus, Microsoft ecosystem
+
+GCP (Google Cloud)
+• ML: Vertex AI, AutoML, Healthcare API
+• Compute: Compute Engine, Cloud Run
+• AI/ML leader, cutting-edge
+
+All three: HIPAA-compliant with BAA
+
+==========
+
+SLIDE 4: CLOUD ML SERVICES COMPARISON
+AWS vs Azure vs GCP:
+
+Feature          | AWS          | Azure       | GCP
+ML Platform      | SageMaker    | Azure ML    | Vertex AI
+Healthcare API   | Comprehend   | Health Bot  | Healthcare API
+GPU Instances    | P4d/P5       | NC/ND       | A2/A3
+Pricing          | $$$          | $$$         | $$
+Ease of Use      | Medium       | Easy        | Easy
+
+Healthcare Focus:
+✅ All HIPAA-compliant
+✅ Support PHI workloads
+✅ Different strengths
+
+==========
+
+SLIDE 5: CLOUD FOR HEALTHCARE
+HIPAA Compliance:
+✅ BAA required with cloud provider
+✅ Specific configurations needed
+✅ Not all services eligible
+
+Data Residency:
+• PHI must stay in specific regions
+• GDPR (EU), HIPAA (US)
+
+Security Features:
+• Encryption (at rest & transit)
+• Network isolation (VPC/VNet)
+• Access controls (IAM)
+• Audit logging
+
+Real-World Examples:
+• AWS: Cleveland Clinic, Moderna
+• Azure: Mayo Clinic, Humana
+• GCP: Stanford Healthcare
+
+==========
+
+SLIDE 5A: CLOUD ML WORKFLOW
+Typical Cloud ML Pipeline:
+
+1. Data Collection
+   → S3/Blob Storage/Cloud Storage
+
+2. Training
+   → SageMaker/Azure ML/Vertex AI
+   → GPU instances (P4, NC-series, A2)
+
+3. Model Registry
+   → SageMaker Registry/Azure ML/Vertex
+
+4. Deployment
+   → Endpoints/API Gateway
+   → Auto-scaling
+
+5. Monitoring
+   → CloudWatch/Monitor/Cloud Logging
+
+Advantages:
+✅ Fully managed
+✅ Scales automatically
+✅ Pay for usage
+
+Challenges:
+❌ Cost at scale
+❌ Latency for real-time
+❌ Data must leave premise
+
+==========
+
+SLIDE 5B: CLOUD COSTS EXAMPLE
+Real-World Pricing (Approximate):
+
+AWS SageMaker (ml.p3.2xlarge - 1 GPU):
+• Training: ~$3.06/hour
+• Inference: ~$3.81/hour
+• 24/7 inference: ~$2,750/month
+• Storage (S3): $0.023/GB/month
+• API calls: $0.0004 per request
+
+Azure ML (NC6 - 1 GPU):
+• Training: ~$2.70/hour
+• Inference: ~$3.06/hour
+• 24/7 inference: ~$2,200/month
+• Storage: Similar to AWS
+
+GCP Vertex AI (n1-standard-4 + GPU):
+• Training: ~$2.48/hour
+• Inference: ~$2.80/hour
+• 24/7 inference: ~$2,000/month
+
+100,000 requests/month:
+• Cloud: $2,000-3,000/month
+• Edge: $10,000 hardware (one-time) + $200 power
+
+Breakeven: ~4-6 months for edge!
+
+==========
+
+SLIDE 5C: DISCUSSION - CLOUD PLATFORMS
+Questions to engage audience:
+
+• Who has used AWS/Azure/GCP for ML?
+• What challenges have you faced?
+• Healthcare compliance concerns?
+• Cost experiences?
+
+Key Points:
+• Cloud is powerful but not always the answer
+• Healthcare has unique constraints
+• Edge AI offers alternatives
+• Let's explore edge AI next...
+
+==========
+
+======== PART 2: EDGE AI ========
+
+SLIDE 6: WHAT IS EDGE AI?
+Definition:
+Edge AI = Running AI models on local devices (not cloud)
+
+Edge Devices:
+• Hospital servers
+• Medical devices
+• IoT devices
+• Mobile phones
+• Edge gateways
+
+Key Characteristics:
+✅ Local processing
+✅ Low latency (<100ms)
+✅ Privacy-first (data stays local)
+✅ Works offline
+✅ Reduced bandwidth
+
+vs Cloud: Centralized vs Distributed
+
+==========
+
+SLIDE 7: WHY EDGE AI FOR HEALTHCARE?
+Critical Advantages:
+
+1. Privacy & Compliance
+   • PHI never leaves hospital
+   • HIPAA easier
+   • Patient trust
+
+2. Low Latency
+   • Real-time diagnostics (<1 second)
+   • Critical for emergency care
+   • Example: Sepsis detection
+
+3. Reliability
+   • Works without internet
+   • No cloud outage risk
+   • Example: Rural clinics
+
+4. Cost
+   • No cloud API charges
+   • One-time hardware
+   • Predictable costs
+
+5. Data Sovereignty
+   • Compliance with local laws
+   • GDPR, etc.
+
+==========
+
+SLIDE 8: EDGE AI USE CASES - HEALTHCARE
+Real-World Applications:
+
+1. Medical Imaging
+   • CT/MRI analysis at imaging station
+   • Brain hemorrhage detection in ER
+   • Latency: <5 seconds
+
+2. ICU Monitoring
+   • Continuous patient monitoring
+   • Sepsis prediction
+   • Latency: <1 second critical
+
+3. Telemedicine
+   • On-device diagnosis
+   • Works in rural areas
+   • Privacy-preserved
+
+4. Medical Devices
+   • Smart stethoscopes
+   • Portable ultrasound
+   • Wearables
+
+5. Clinical Documentation
+   • Voice-to-text locally
+   • SOAP notes
+   • No PHI transmitted
+
+==========
+
+SLIDE 9: EDGE VS CLOUD VS HYBRID
+Comparison Table:
+
+Aspect       | Cloud AI    | Edge AI      | Hybrid
+Latency      | 100-500ms   | <10ms        | 10-50ms
+Privacy      | Data sent   | Data local   | Configurable
+Cost         | $2-3k/month | $10k upfront | $500/month
+Scalability  | Unlimited   | Fixed        | Flexible
+Reliability  | 99.9%       | 99.99%       | 99.95%
+Maintenance  | Provider    | Self         | Mixed
+Updates      | Easy        | Manual       | Automated
+
+Decision Matrix:
+
+Use Cloud When:
+• Variable workload
+• Need massive scale
+• Complex models (>10GB)
+• Team expertise available
+
+Use Edge When:
+• Latency critical (<10ms)
+• Privacy mandatory
+• Offline operation needed
+• Predictable workload
+
+Use Hybrid When: ← MOST COMMON
+• Best of both worlds
+• Inference at edge
+• Training in cloud
+
+==========
+
+SLIDE 9A: EDGE AI HARDWARE OPTIONS
+Edge Device Options for Healthcare:
+
+Budget Option ($1,000-3,000):
+• Mac Mini M2/M3 (24GB RAM)
+• Small models (2-4GB)
+• 5-10 requests/min
+• Good for clinics
+
+Mid-Range ($5,000-10,000):
+• Intel Xeon + NVIDIA T4
+• Medium models (7-13GB)
+• 20-50 requests/min
+• Good for hospitals
+
+High-End ($15,000-30,000):
+• NVIDIA A100/H100
+• Large models (30-70GB)
+• 100+ requests/min
+• Good for major hospitals
+
+Our Demo: Mac (consumer hardware)
+Shows it works even on modest hardware!
+
+==========
+
+SLIDE 9B: EDGE AI FRAMEWORKS
+Popular Edge Deployment Tools:
+
+Ollama (Our Demo):
+• Easy setup
+• Works on CPU/GPU
+• Multiple models
+• Perfect for demos/dev
+
+NVIDIA Triton:
+• Production-grade
+• High performance
+• Multi-framework
+• Complex setup
+
+TensorFlow Lite:
+• Mobile/embedded
+• Optimized models
+• Good for devices
+
+ONNX Runtime:
+• Cross-platform
+• Optimized inference
+• Industry standard
+
+Intel OpenVINO:
+• CPU-optimized
+• Good for edge servers
+
+Today's demo uses Ollama (simplest)
+Production would use Triton/ONNX
+
+==========
+
+SLIDE 9C: DISCUSSION - EDGE AI
+Questions to engage audience:
+
+• Who works with edge devices?
+• Privacy concerns in your organization?
+• Latency requirements?
+• Current deployment model?
+
+Scenarios to Discuss:
+• Rural clinic (no internet)
+• Emergency room (seconds matter)
+• Home health monitoring
+• Mobile health apps
+
+Key Points:
+• Edge AI is mature and production-ready
+• Not just theory - companies using it
+• Our demo proves it works
+• Let's see validation in action...
+
+==========
+
+SLIDE 10: HYBRID ARCHITECTURE (OUR DEMO!)
+[DIAGRAM]
+
+Hospital/Edge Device
+    ↓
+Ollama (phi3:mini) → Edge Inference
+    ↓
+Validation & Metrics
+    ↓
+MLflow (Local/Cloud) → Flexible
+    ↓
+Drift Detection
+    ↓
+Dashboard
+
+Advantages:
+✅ Inference at edge (low latency, private)
+✅ Tracking local or cloud (flexible)
+✅ HIPAA compliant (PHI stays local)
+✅ Best of both worlds
+
+This is what we're demonstrating today!
+
+==========
+
+======== PART 3: MODEL VALIDATION ========
+
+SLIDE 11: THE PROBLEM
+Without Proper Monitoring:
+❌ Models silently fail
+❌ Patient safety at risk
+❌ No audit trail
+❌ Unknown when to retrain
+
+With MLOps Pipeline:
+✅ Automated quality checks
+✅ Continuous monitoring
+✅ Full traceability
+✅ Early problem detection
+
+==========
+
+SLIDE 12: MODEL VALIDATION
+Quality Metrics (0-1 scale):
+• Coherence Score - Text consistency
+• Relevance Score - Answer accuracy
+• Safety Score - Harmful content check
+• Overall Quality - Weighted combination
+
+Performance Metrics:
+• Response Latency (seconds)
+• Tokens per Second
+• Resource Usage
+
+Test Categories:
+• Medical Knowledge
+• Clinical Reasoning
+• Medical Safety
+• Medical Coding
+
+==========
+
+SLIDE 13: VALIDATION DEMO
+[SCREENSHOT: Terminal running demo]
+
+Healthcare Query
+    ↓
+phi3:mini Model (Local/Edge)
+    ↓
+Quality Scoring
+    ↓
+MLflow Logging
+
+Live Demo: python demo_healthcare.py phi3:mini
+
+==========
+
+SLIDE 14: SAMPLE RESULTS
+Average Results from 8 Tests:
+• Quality Score: 0.93 (93%)
+• Safety Score: 1.00 (100%)
+• Average Latency: 38.1 seconds
+
+✅ Production Ready!
+
+Detailed Breakdown by Category:
+• Medical Knowledge: 0.95 (excellent)
+• Clinical Reasoning: 0.83 (good)
+• Medical Safety: 0.97 (excellent)
+• Medical Coding: 0.99 (excellent)
+
+Example:
+Query: "What are diabetes symptoms?"
+Quality: 0.98, Safety: 1.00, Latency: 26.4s
+
+==========
+
+SLIDE 14A: METRICS DEEP DIVE
+How We Calculate Quality (0-1):
+
+Coherence Score:
+• Text flows logically
+• No contradictions
+• Structured response
+• Weight: 30%
+
+Relevance Score:
+• Answers the question
+• On-topic
+• Appropriate detail
+• Weight: 40%
+
+Safety Score:
+• No harmful advice
+• Appropriate disclaimers
+• Medical accuracy
+• Weight: 30%
+
+Overall = Weighted Average
+
+Why these metrics?
+• Coherence: User experience
+• Relevance: Usefulness
+• Safety: Patient safety (most critical!)
+
+==========
+
+SLIDE 14B: VALIDATION RESULTS VISUALIZATION
+[Can show table or chart]
+
+Test Category           | Queries | Avg Quality | Avg Safety | Avg Latency
+Medical Knowledge       | 3       | 0.95        | 1.00       | 35.0s
+Clinical Reasoning      | 2       | 0.83        | 1.00       | 47.3s
+Medical Safety          | 2       | 0.97        | 1.00       | 39.3s
+Medical Coding          | 1       | 0.99        | 1.00       | 35.8s
+
+Observations:
+• Safety: Perfect 1.00 across all categories ✅
+• Quality: Clinical reasoning lowest (0.83) - still acceptable
+• Latency: Consistent 35-50s range
+
+Production Thresholds:
+• Quality: >0.80 (pass)
+• Safety: >0.95 (pass)
+• Latency: <60s (pass)
+
+All tests pass! Model is ready.
+
+==========
+
+SLIDE 15: MLFLOW TRACKING
+Why Experiment Tracking?
+
+Without: "Which model was that? Can't reproduce!"
+With MLflow:
+✅ Every experiment logged
+✅ Parameters tracked
+✅ Metrics stored
+✅ Artifacts saved
+✅ Reproducible science
+✅ Compliance-ready
+
+What Gets Tracked:
+• Parameters: Model, temperature, prompts
+• Metrics: Quality, safety, latency, tokens
+• Artifacts: Responses, logs, configs
+
+==========
+
+SLIDE 16: MLFLOW UI
+[SCREENSHOT: MLflow experiments view]
+
+Demo: http://localhost:5000
+
+What to Show:
+1. Experiments list (healthcare_validation_demo)
+2. Click into experiment
+3. Show runs (each query is a run)
+4. Click on a run
+5. Show metrics, parameters, artifacts
+
+Features:
+• All metrics searchable
+• Compare experiments
+• Complete traceability
+• Export capabilities
+
+This works on edge devices OR cloud!
+
+==========
+
+SLIDE 16A: MLFLOW RUN DETAILS
+[SCREENSHOT: Individual run view]
+
+What's Logged for Each Run:
+
+Parameters:
+• model: "phi3:mini"
+• temperature: 0.7
+• prompt: "What are diabetes symptoms?"
+• category: "medical_knowledge"
+
+Metrics:
+• quality_score: 0.98
+• safety_score: 1.00
+• coherence_score: 0.96
+• latency: 26.37
+• tokens_per_second: 12.5
+
+Artifacts:
+• response_text.txt (full response)
+
+Why This Matters:
+• Can reproduce any result
+• Can compare runs
+• Full audit trail for compliance
+• Debug issues easily
+
+==========
+
+SLIDE 16B: MLFLOW COMPARISON VIEW
+[SCREENSHOT: Comparing multiple runs]
+
+Compare Feature:
+• Select multiple runs
+• Side-by-side comparison
+• Identify best configurations
+• Track improvements
+
+Example Comparison:
+Run 1: temperature=0.7, quality=0.98
+Run 2: temperature=0.9, quality=0.85
+Result: Lower temperature = better quality
+
+Use Cases:
+• Model selection (phi3 vs llama2)
+• Hyperparameter tuning
+• A/B testing
+• Regression detection
+
+==========
+
+SLIDE 16C: DISCUSSION - VALIDATION
+Questions for Audience:
+
+• How do you currently validate ML models?
+• What quality thresholds do you use?
+• How do you track experiments?
+• Compliance requirements?
+
+Key Insights:
+• Validation must be systematic
+• Tracking essential for production
+• Edge or cloud - same needs
+• MLflow works anywhere
+
+Now let's talk about what happens after deployment...
+Monitoring!
+
+==========
+
+======== PART 4: MODEL MONITORING ========
+
+SLIDE 17: UNDERSTANDING DRIFT
+Two Types:
+
+1. Data Drift
+   • Input data distribution changes
+   • Example: Summer → Winter (flu season)
+   • Queries shift: general → respiratory
+
+2. Model Drift
+   • Model performance degrades
+   • Example: Quality drops 0.92 → 0.72
+   • Latency increases 30s → 50s
+
+Both require monitoring!
+Edge and Cloud both affected!
+
+==========
+
+SLIDE 18: DRIFT EXAMPLE - HEALTHCARE
+Real Scenario:
+
+Baseline (January):
+• General health: 70%
+• Respiratory: 10%
+• Quality: 0.92
+
+Current (February - Flu Season):
+• General health: 20%
+• Respiratory: 70%
+• Quality: 0.72
+
+🚨 DRIFT DETECTED
+Action: Retrain with seasonal data
+
+==========
+
+SLIDE 19: STATISTICAL RIGOR
+How We Detect Drift:
+
+• Kolmogorov-Smirnov Test (distribution)
+• Mann-Whitney U Test (performance)
+• KL Divergence (categories)
+
+Threshold: p < 0.05 for significance
+
+Not arbitrary - scientifically rigorous!
+Works on edge devices too!
+
+==========
+
+SLIDE 20: DRIFT DETECTION DEMO
+[SCREENSHOT: Terminal running drift detection]
+
+Demo: python demo_drift_detection.py phi3:mini
+
+Three Scenarios Demonstrated:
+1. Seasonal Drift - Summer → Winter
+2. Performance Drift - Quality -22%
+3. Real-Time Monitoring - Live with phi3:mini
+
+Watch for:
+• Statistical test results (p-values)
+• KL divergence values
+• Drift alerts
+• Recommended actions
+
+Running on local edge device!
+Takes ~12 minutes (be patient!)
+
+==========
+
+SLIDE 20A: SCENARIO 1 RESULTS
+[SCREENSHOT: Seasonal drift output]
+
+Seasonal Drift Detection:
+
+Baseline (Summer):
+• General health: 80%
+• Respiratory: 0%
+
+Current (Winter):
+• General health: 0%
+• Respiratory: 100%
+
+Result:
+🚨 DRIFT DETECTED
+• KL Divergence: 6.4 (very high!)
+• p-value: <0.001 (significant)
+• Recommendation: Retrain with seasonal data
+
+Why This Matters:
+• Model trained on summer fails in winter
+• Automated detection prevents failure
+• Same issue on edge or cloud!
+
+==========
+
+SLIDE 20B: SCENARIO 2 RESULTS
+[SCREENSHOT: Performance drift output]
+
+Model Performance Degradation:
+
+Baseline:
+• Quality: 0.92
+• Safety: 1.00
+• Latency: 27.7s
+
+Current:
+• Quality: 0.70 (-22% ❌)
+• Safety: 0.94 (-6%)
+• Latency: 50.7s (+83% ❌)
+
+Result:
+🚨 DRIFT DETECTED
+• Mann-Whitney U test: p=0.10
+• Latency drift: 83% increase
+• Recommendation: Investigate & retrain
+
+Why This Matters:
+• Silent degradation caught early
+• Patient safety protected
+• Works on any deployment!
+
+==========
+
+SLIDE 20C: SCENARIO 3 RESULTS
+[SCREENSHOT: Real-time monitoring]
+
+Real-Time Detection:
+
+Live Testing with phi3:mini:
+• Baseline queries (3): Avg quality 0.95
+• Current queries (3): Avg quality 0.94
+• Result: ✅ No drift (-1.3% change)
+
+Statistical Tests:
+• Quality: p=1.00 (no drift)
+• Safety: p=0.50 (no drift)
+• Latency: -9% (slight improvement)
+
+Why This Matters:
+• Continuous monitoring
+• Real production scenario
+• Model performing consistently
+• System would alert if drift detected
+
+==========
+
+SLIDE 21: DRIFT DASHBOARD
+[SCREENSHOT: Dashboard main view]
+
+Features:
+• Real-time monitoring
+• Data from 30+ MLflow runs
+• Quality & latency trends
+• Automated alerts
+• 24/7 operation
+
+Demo: http://localhost:8051
+
+Can run on edge OR cloud!
+
+==========
+
+SLIDE 22: DASHBOARD COMPONENTS
+[SCREENSHOT: Dashboard details]
+
+Status Cards at Top:
+✅ Quality Drift: Normal / 🚨 Alert
+✅ Latency Drift: Normal / 🚨 Alert
+✅ Data Drift: Normal / 🚨 Alert
+
+Charts Below:
+• Quality Score Trend
+  - Green: Baseline period
+  - Blue: Current period
+  - Red dashed: Alert threshold
+
+• Latency Trend
+  - Shows response time changes
+  - Alert threshold at 50s
+
+• Distribution Comparisons
+  - Baseline vs Current histograms
+  - Visual drift detection
+
+• Category Distribution
+  - Query pattern shifts
+  - Seasonal changes visible
+
+Data Source: MLflow (30 runs)
+Updates: Every 60 seconds
+
+==========
+
+SLIDE 22A: DASHBOARD ALERTS EXPLAINED
+Alert System:
+
+🟢 All Systems Normal:
+• Quality: <5% degradation
+• Latency: <20% increase
+• Data: Stable distribution
+→ No action needed, keep monitoring
+
+🟠 Warning Level:
+• Quality: 5-10% degradation
+• Latency: 20-50% increase
+→ Monitor closely, investigate
+
+🔴 Critical Alert:
+• Quality: >10% degradation
+• Latency: >50% increase
+• Data: Significant shift
+→ Immediate action required
+
+Actions Triggered:
+• Email/Slack notification
+• Escalation to on-call
+• Automatic incident ticket
+• Model retraining pipeline
+
+Our dashboard: Automatic alerting!
+
+==========
+
+SLIDE 22B: DASHBOARD ARCHITECTURE
+How the Dashboard Works:
+
+[DIAGRAM]
+
+MLflow Database
+    ↓
+Dashboard Backend (Python)
+    ↓
+Drift Detector Module
+    ↓
+Statistical Tests
+    ↓
+Plotly Dash Frontend
+    ↓
+Web Browser (http://localhost:8051)
+
+Refresh Cycle (every 60 seconds):
+1. Query MLflow for new runs
+2. Calculate drift metrics
+3. Run statistical tests
+4. Update visualizations
+5. Trigger alerts if needed
+
+Can run on:
+✅ Edge device (hospital server)
+✅ Cloud VM
+✅ Kubernetes cluster
+✅ Docker container
+
+==========
+
+SLIDE 22C: DISCUSSION - MONITORING
+Questions for Audience:
+
+• How do you currently monitor models?
+• Have you experienced model degradation?
+• What would catch drift in your system?
+• Alert fatigue - how to handle?
+
+Real Scenarios:
+• Weekend deploy, Monday model fails
+• Gradual quality degradation over weeks
+• Seasonal pattern shifts
+• Data pipeline changes
+
+Key Points:
+• Monitoring must be automated
+• Alerts must be actionable
+• Statistical rigor prevents false positives
+• Works on edge, cloud, or hybrid
+
+==========
+
+======== PRODUCTION & COMPLIANCE ========
+
+SLIDE 23: AUTOMATED PIPELINE
+Complete Workflow:
+
+Query → Model (Edge/Cloud) → Metrics → MLflow → 
+Drift Detection → Dashboard → Alert → Retrain
+
+Zero human intervention!
+Works on edge, cloud, or hybrid!
+
+==========
+
+SLIDE 24: DEPLOYMENT OPTIONS
+1. Edge Only (Our Demo)
+   • Hospital server
+   • No internet required
+   • Maximum security
+   ✅ Today's demo
+
+2. Cloud Only
+   • AWS/Azure/GCP
+   • Scalable
+   • Managed services
+
+3. Hybrid (Best!)
+   • Inference at edge
+   • Tracking in cloud
+   • Best of both worlds
+
+==========
+
+SLIDE 25: HIPAA COMPLIANCE
+Edge Deployment (Our Demo):
+✅ All processing local - No external APIs
+✅ No data transmission
+✅ Full audit trail (MLflow)
+✅ Access controls
+✅ Encryption at rest
+
+Cloud Deployment:
+✅ BAA with provider
+✅ HIPAA-compliant services
+✅ Encryption in transit
+✅ Network isolation (VPC)
+✅ Audit logging
+
+Both can be HIPAA-compliant!
+
+==========
+
+SLIDE 26: WHEN TO RETRAIN?
+Alert Thresholds:
+
+🔴 Critical:
+• Quality < -20% → Immediate retrain
+• Safety < 0.90 → Stop serving
+• Latency > 2x → Investigate
+
+🟠 Warning:
+• Quality -10 to -20% → Schedule retrain
+• Latency 1.5-2x → Monitor closely
+
+🟢 Info:
+• Quality -5 to -10% → Track trends
+
+Same thresholds for edge and cloud!
+
+==========
+
+======== WRAP-UP ========
+
+SLIDE 27: REAL-WORLD IMPACT
+Before MLOps Pipeline:
+❌ Failures undetected for hours/days
+❌ Manual testing (time-consuming)
+❌ No systematic monitoring
+❌ Difficult compliance
+❌ Unknown when to retrain
+❌ Patient safety risks
+
+After MLOps (Edge or Cloud):
+✅ Failures detected in minutes
+✅ Automated testing 24/7
+✅ Continuous monitoring
+✅ Full audit trail
+✅ Data-driven retrain decisions
+✅ Improved patient outcomes
+
+ROI Example:
+• One prevented adverse event: $100k+
+• System cost: $10-20k
+• Breakeven: First month!
+
+==========
+
+SLIDE 27A: DEPLOYMENT DECISION TREE
+When to Choose Which Deployment:
+
+Choose EDGE when:
+✅ Low latency required (<50ms)
+✅ Privacy is mandatory (HIPAA)
+✅ Offline capability needed
+✅ Predictable workload
+✅ One-time budget available
+
+Examples: ER systems, ICU monitors, rural clinics
+
+Choose CLOUD when:
+✅ Variable workload
+✅ Need massive scale
+✅ Large models (>10GB)
+✅ Prefer operational expense
+✅ Want managed services
+
+Examples: National health systems, research platforms
+
+Choose HYBRID when:
+✅ Want best of both
+✅ Inference at edge
+✅ Training in cloud
+✅ Central monitoring
+
+Examples: Large hospital networks, multi-site deployments
+
+Today's Demo: Pure Edge (most privacy-focused)
+
+==========
+
+SLIDE 27B: PRODUCTION CHECKLIST
+Deploying to Production:
+
+Phase 1: Validation (Week 1-2)
+□ Define quality thresholds
+□ Create test suite
+□ Validate multiple models
+□ Document results
+
+Phase 2: Deployment (Week 3)
+□ Choose deployment (edge/cloud/hybrid)
+□ Set up infrastructure
+□ Deploy model
+□ Configure MLflow
+
+Phase 3: Monitoring (Week 4)
+□ Set up drift detection
+□ Configure alerts
+□ Create dashboards
+□ Test alert pipeline
+
+Phase 4: Operations (Ongoing)
+□ Monitor daily
+□ Review alerts weekly
+□ Retrain monthly (or when drift detected)
+□ Update test suite continuously
+
+==========
+
+SLIDE 28: CLOUD + EDGE + VALIDATION + MONITORING
+Complete Picture:
+
+[DIAGRAM]
+
+Cloud (AWS/Azure/GCP)
+   ↕ (Optional sync)
+Edge Device (Hospital)
+   ↓
+Model Inference (Local/Fast)
+   ↓
+Validation (Quality checks)
+   ↓
+MLflow (Tracking)
+   ↓
+Monitoring (Drift detection)
+   ↓
+Dashboard (Alerts)
+
+All four topics integrated!
+
+==========
+
+SLIDE 29: KEY TAKEAWAYS
+What You Learned:
+
+✅ Cloud platforms (AWS/Azure/GCP) for ML
+✅ Edge AI benefits for healthcare
+✅ Hybrid architecture (best of both)
+✅ Automated validation catches issues
+✅ MLflow provides full traceability
+✅ Drift detection prevents failures
+✅ Works on edge AND cloud
+✅ HIPAA-compliant both ways
+
+Code: github.com/ullas-lr/MLFlow
+
+==========
+
+SLIDE 30: DEMO SUMMARY
+What We Showed Today:
+
+Part 1: Cloud options (conceptual)
+Part 2: Edge AI concepts (conceptual)
+Part 3: Validation demo (live - edge)
+✅ Healthcare validation (8 tests, 93%)
+✅ MLflow tracking (30+ runs)
+
+Part 4: Monitoring demo (live - edge)
+✅ Drift detection (3 scenarios)
+✅ Real-time dashboard (live data)
+
+Tech Stack:
+• Ollama (edge inference)
+• phi3:mini (2GB model)
+• MLflow (tracking - edge or cloud)
+• Python (validation)
+• Dash (visualization)
+
+Today: Edge deployment
+Could be: Cloud or Hybrid too!
+
+==========
+
+SLIDE 31: NEXT STEPS
+Getting Started:
+
+1. Choose Your Deployment:
+   • Edge: Follow today's demo
+   • Cloud: AWS SageMaker / Azure ML / Vertex AI
+   • Hybrid: Best of both
+
+2. Clone Repository:
+   git clone github.com/ullas-lr/MLFlow
+
+3. Install & Test:
+   pip install -r requirements.txt
+   brew install ollama (for edge)
+   python test_drift_detector.py
+
+4. Customize for your use case
+
+Works on edge, cloud, or hybrid!
+
+==========
+
+SLIDE 32: RESOURCES
+Documentation:
+• Project README
+• DEMO_COMMANDS.md
+• SESSION_MATERIALS.md
+
+Cloud Platforms:
+• AWS: aws.amazon.com/sagemaker
+• Azure: azure.microsoft.com/ml
+• GCP: cloud.google.com/vertex-ai
+
+Edge AI:
+• Ollama: ollama.ai
+• NVIDIA Jetson
+• Intel OpenVINO
+
+MLOps:
+• MLflow: mlflow.org
+• DVC, Weights & Biases
+
+==========
+
+SLIDE 33: Q&A
+Questions?
+
+Common Topics:
+• Cloud vs Edge decision
+• HIPAA compliance details
+• Deployment strategies
+• Cost considerations
+• Integration with existing systems
+• Scaling to production
+• Model selection
+• Monitoring frequency
+• Hybrid architectures
+
+Let's discuss!
+
+==========
+
+SLIDE 34: THANK YOU
+Thank You for Attending!
+
+Contact:
+Ullas Lakku Raghavendra
+Adobe Systems
+[Your Email]
+[Your LinkedIn]
+
+Code Repository:
+github.com/ullas-lr/MLFlow
+
+Remember:
+✅ Cloud platforms for scale
+✅ Edge AI for privacy & speed
+✅ Validation for quality
+✅ Monitoring for reliability
+
+Feedback appreciated!
+
+======================================================================
+TOTAL SLIDES: 42 main slides + backup slides
+
+TIME BREAKDOWN (105 minutes = 1h 45min):
+• Introduction: 5 min (Slides 1-2)
+• Cloud platforms: 15 min (Slides 3-5C)
+• Edge AI: 15 min (Slides 6-9C)
+• Model validation + demo: 25 min (Slides 10-16C)
+• Model monitoring + demo: 25 min (Slides 17-22C)
+• Production & compliance: 10 min (Slides 23-27B)
+• Wrap-up & summary: 5 min (Slides 28-30)
+• Q&A: 15 min (Slides 31-34)
+
+Total: ~105 minutes (9:30 AM - 11:15 AM)
+
+DEMO RUNS: 20 minutes total
+• Healthcare validation: 8 min
+• Drift detection: 12 min
+Rest is explanation, discussion, MLflow UI, dashboard
+
+======================================================================

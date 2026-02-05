@@ -157,7 +157,15 @@ class ExperimentRunner:
     ):
         """Log experiment to MLflow"""
         
-        with mlflow.start_run(run_name=f"exp_{datetime.now().strftime('%Y%m%d_%H%M%S')}"):
+        # Create descriptive run name
+        category = tags.get('category', 'general') if tags else 'general'
+        # Use first few words of prompt for run name
+        prompt_words = ' '.join(prompt.split()[:5])
+        run_name = f"{category}_{prompt_words}"
+        # Clean up the name (remove special characters)
+        run_name = run_name.replace('?', '').replace(':', '').replace(',', '')
+        
+        with mlflow.start_run(run_name=run_name):
             # Log parameters
             mlflow.log_param("model", self.client.model)
             mlflow.log_param("temperature", temperature)

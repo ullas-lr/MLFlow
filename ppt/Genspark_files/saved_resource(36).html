@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>When to Retrain + Real-World Impact</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0f172a; /* Slate 900 */
+        }
+        .bg-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231e293b' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .threshold-card {
+            transition: all 0.3s ease;
+        }
+        .threshold-card:hover {
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body class="w-[1280px] h-[720px] bg-grid text-white flex flex-col" data-new-gr-c-s-check-loaded="14.1271.0" data-gr-ext-installed="">
+<!-- Top Bar -->
+<div class="w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500"></div>
+<!-- Header Section -->
+<div class="px-12 pt-10 pb-6 flex justify-between items-end border-b border-gray-800">
+<div>
+<div class="flex items-center space-x-3 mb-2">
+<span class="bg-indigo-900 text-indigo-300 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider border border-indigo-800">Production</span>
+<span class="text-gray-400 text-sm font-medium tracking-wide">Operational Strategy</span>
+</div>
+<h1 class="text-4xl font-bold text-white tracking-tight">When to Retrain + Real-World Impact</h1>
+</div>
+<div class="text-gray-500 text-sm font-mono text-right">
+<p>Thresholds &amp; ROI Analysis</p>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 px-12 py-8 grid grid-cols-12 gap-8">
+<!-- Left Column: Alert Thresholds (7 cols) -->
+<div class="col-span-7 flex flex-col justify-between h-full">
+<h3 class="text-lg font-bold text-gray-300 mb-4 flex items-center">
+<i class="fas fa-sliders-h mr-3 text-blue-400"></i>Retraining Thresholds
+            </h3>
+<div class="space-y-4">
+<!-- Critical Level -->
+<div class="threshold-card bg-red-900 bg-opacity-10 border-l-4 border-red-500 rounded-r-xl p-5 border border-y-0 border-r-0 border-gray-800">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center">
+<span class="w-8 h-8 rounded-full bg-red-500 bg-opacity-20 flex items-center justify-center text-red-500 mr-3">
+<i class="fas fa-exclamation-triangle"></i>
+</span>
+<h4 class="text-red-400 font-bold text-lg">CRITICAL ALERT</h4>
+</div>
+<span class="text-xs font-mono bg-red-900 text-red-200 px-2 py-1 rounded">Action: Immediate</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mt-2">
+<div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+<p class="text-xs text-gray-400 uppercase">Quality Drop</p>
+<p class="text-lg font-bold text-white">&gt; 20%</p>
+<p class="text-xs text-red-400">Retrain Now</p>
+</div>
+<div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+<p class="text-xs text-gray-400 uppercase">Safety Score</p>
+<p class="text-lg font-bold text-white">&lt; 0.90</p>
+<p class="text-xs text-red-400">Stop Serving</p>
+</div>
+<div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+<p class="text-xs text-gray-400 uppercase">Latency</p>
+<p class="text-lg font-bold text-white">&gt; 2x</p>
+<p class="text-xs text-red-400">Investigate</p>
+</div>
+</div>
+</div>
+<!-- Warning Level -->
+<div class="threshold-card bg-orange-900 bg-opacity-10 border-l-4 border-orange-500 rounded-r-xl p-5 border border-y-0 border-r-0 border-gray-800">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center">
+<span class="w-8 h-8 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center text-orange-500 mr-3">
+<i class="fas fa-bell"></i>
+</span>
+<h4 class="text-orange-400 font-bold text-lg">WARNING LEVEL</h4>
+</div>
+<span class="text-xs font-mono bg-orange-900 text-orange-200 px-2 py-1 rounded">Action: Schedule</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mt-2">
+<div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+<p class="text-xs text-gray-400 uppercase">Quality Drop</p>
+<p class="text-lg font-bold text-white">10% - 20%</p>
+<p class="text-xs text-orange-400">Plan Retrain</p>
+</div>
+<div class="bg-gray-800 bg-opacity-50 p-3 rounded opacity-50">
+<p class="text-xs text-gray-400 uppercase">Safety Score</p>
+<p class="text-lg font-bold text-white">&gt; 0.95</p>
+<p class="text-xs text-gray-500">Stable</p>
+</div>
+<div class="bg-gray-800 bg-opacity-50 p-3 rounded">
+<p class="text-xs text-gray-400 uppercase">Latency</p>
+<p class="text-lg font-bold text-white">1.5x - 2x</p>
+<p class="text-xs text-orange-400">Monitor</p>
+</div>
+</div>
+</div>
+<!-- Info Level -->
+<div class="threshold-card bg-green-900 bg-opacity-10 border-l-4 border-green-500 rounded-r-xl p-5 border border-y-0 border-r-0 border-gray-800">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center">
+<span class="w-8 h-8 rounded-full bg-green-500 bg-opacity-20 flex items-center justify-center text-green-500 mr-3">
+<i class="fas fa-info"></i>
+</span>
+<h4 class="text-green-400 font-bold text-lg">INFO / NORMAL</h4>
+</div>
+<span class="text-xs font-mono bg-green-900 text-green-200 px-2 py-1 rounded">Action: Track</span>
+</div>
+<div class="flex items-center text-sm text-gray-400 ml-11">
+<p>Quality deviation &lt; 10% is considered normal fluctuation. Continue tracking trends for long-term drift patterns.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: ROI Analysis (5 cols) -->
+<div class="col-span-5 flex flex-col h-full">
+<h3 class="text-lg font-bold text-gray-300 mb-4 flex items-center">
+<i class="fas fa-chart-line mr-3 text-green-400"></i>Return on Investment
+            </h3>
+<div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 h-full flex flex-col relative overflow-hidden">
+<!-- Background decoration -->
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-green-500 rounded-full opacity-5 filter blur-3xl"></div>
+<div class="mb-8">
+<p class="text-sm text-gray-400 font-medium uppercase tracking-wide mb-2">Cost of Failure</p>
+<div class="flex items-baseline">
+<span class="text-4xl font-bold text-white">$100k+</span>
+<span class="ml-2 text-sm text-gray-400">per adverse event</span>
+</div>
+<p class="text-xs text-gray-500 mt-2">Estimated liability &amp; remediation cost for critical healthcare AI errors.</p>
+</div>
+<div class="mb-8">
+<p class="text-sm text-gray-400 font-medium uppercase tracking-wide mb-2">System Implementation</p>
+<div class="flex items-baseline">
+<span class="text-3xl font-bold text-gray-300">$10k-20k</span>
+<span class="ml-2 text-sm text-gray-400">one-time setup</span>
+</div>
+<div class="w-full bg-gray-700 h-2 rounded-full mt-3 overflow-hidden">
+<div class="bg-blue-500 h-full w-1/5"></div>
+</div>
+<p class="text-xs text-gray-500 mt-2">Hardware + Development Time</p>
+</div>
+<div class="mt-auto bg-green-900 bg-opacity-20 border border-green-800 rounded-lg p-4 flex items-center">
+<div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white text-xl mr-4 shadow-lg shadow-green-500/30">
+<i class="fas fa-check"></i>
+</div>
+<div>
+<p class="text-xs text-green-300 uppercase font-bold tracking-wider">Breakeven Point</p>
+<p class="text-xl font-bold text-white">First Month</p>
+<p class="text-xs text-green-400">Prevents 1 event = 500% ROI</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-12 py-3 border-t border-gray-800 flex justify-between items-center text-gray-600 text-xs">
+<p>Adobe Systems - FDP Session</p>
+<p>Slide 36</p>
+</div>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

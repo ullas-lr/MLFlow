@@ -9,6 +9,7 @@ requests==2.31.0
 # Data Processing
 pandas==2.2.0
 numpy==1.26.3
+scipy==1.11.4
 
 # Monitoring and Visualization
 plotly==5.18.0

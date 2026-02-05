@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Comparison View &amp; Discussion</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0f172a; /* Slate 900 */
+        }
+        .bg-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231e293b' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .metric-card {
+            background-color: rgba(30, 41, 59, 0.6);
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .metric-card:hover {
+            transform: translateY(-2px);
+            background-color: rgba(30, 41, 59, 0.9);
+            border-color: #64748b;
+        }
+        .glass-panel {
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            font-size: 1.5rem;
+        }
+        .example-card {
+            background-color: #1e293b;
+            border-left: 4px solid #8b5cf6;
+        }
+        .discussion-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+    </style>
+</head>
+<body class="w-[1280px] h-[720px] bg-grid text-white flex flex-col" data-new-gr-c-s-check-loaded="14.1271.0" data-gr-ext-installed="">
+<!-- Top Bar -->
+<div class="w-full h-1 bg-blue-500"></div>
+<!-- Header Section -->
+<div class="px-12 pt-10 pb-6 flex justify-between items-end border-b border-gray-800">
+<div>
+<div class="flex items-center space-x-3 mb-2">
+<span class="bg-blue-900 text-blue-300 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider border border-blue-800">Part 3</span>
+<span class="text-gray-400 text-sm font-medium tracking-wide">Model Validation</span>
+</div>
+<h1 class="text-4xl font-bold text-white tracking-tight">Comparison View &amp; Discussion</h1>
+</div>
+<div class="flex items-center space-x-2 text-gray-500 text-sm font-mono">
+<i class="fas fa-project-diagram"></i>
+<span>Experiment Analysis</span>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 px-12 py-8 flex flex-col overflow-hidden">
+<!-- Top Row: Use Cases -->
+<div class="grid grid-cols-3 gap-6 mb-8">
+<!-- Use Case 1 -->
+<div class="metric-card rounded-xl p-5 flex items-center justify-between">
+<div>
+<p class="text-blue-400 text-sm font-bold uppercase tracking-wider mb-1">Model Selection</p>
+<p class="text-gray-300 text-sm">Compare architectures (e.g., Phi-3 vs Llama-2)</p>
+</div>
+<div class="icon-circle text-blue-400">
+<i class="fas fa-balance-scale"></i>
+</div>
+</div>
+<!-- Use Case 2 -->
+<div class="metric-card rounded-xl p-5 flex items-center justify-between">
+<div>
+<p class="text-purple-400 text-sm font-bold uppercase tracking-wider mb-1">Tuning</p>
+<p class="text-gray-300 text-sm">Optimize parameters (temp, prompts)</p>
+</div>
+<div class="icon-circle text-purple-400" style="background-color: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);">
+<i class="fas fa-sliders-h"></i>
+</div>
+</div>
+<!-- Use Case 3 -->
+<div class="metric-card rounded-xl p-5 flex items-center justify-between">
+<div>
+<p class="text-green-400 text-sm font-bold uppercase tracking-wider mb-1">Regression</p>
+<p class="text-gray-300 text-sm">Detect quality drops in new versions</p>
+</div>
+<div class="icon-circle text-green-400" style="background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
+<i class="fas fa-history"></i>
+</div>
+</div>
+</div>
+<!-- Main Content Split -->
+<div class="flex-1 flex space-x-8 min-h-0">
+<!-- Left: Comparison Chart -->
+<div class="w-3/5 glass-panel rounded-xl p-6 border border-gray-700 flex flex-col">
+<h3 class="text-lg font-bold text-white mb-4 flex items-center">
+<i class="fas fa-chart-bar text-purple-500 mr-2"></i>
+                    Impact of Temperature on Quality
+                </h3>
+<div class="flex-1 relative w-full h-full">
+<canvas id="comparisonChart"></canvas>
+</div>
+<div class="mt-4 flex justify-between text-xs text-gray-400 px-2 font-mono">
+<p>Experiment ID: 83f92a vs 91b2c4</p>
+<p>Metric: Overall Quality Score</p>
+</div>
+</div>
+<!-- Right: Detailed Example & Discussion -->
+<div class="w-2/5 flex flex-col space-y-6">
+<!-- Example Card -->
+<div class="example-card rounded-xl p-5 shadow-lg flex-1">
+<div class="flex justify-between items-start mb-3">
+<h3 class="text-sm font-bold text-purple-400 uppercase tracking-wide">Result Insight</h3>
+<span class="text-xs bg-gray-700 px-2 py-1 rounded text-gray-300 font-mono">Config Check</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center bg-gray-800 p-3 rounded border border-blue-500 border-opacity-30">
+<div>
+<p class="text-xs text-gray-400 uppercase">Run 1 (Baseline)</p>
+<p class="text-sm font-bold text-white">Temp: 0.7</p>
+</div>
+<span class="text-xl font-bold text-green-400 font-mono">0.98 <i class="fas fa-check-circle text-xs ml-1"></i></span>
+</div>
+<div class="flex justify-between items-center bg-gray-800 p-3 rounded border border-gray-700">
+<div>
+<p class="text-xs text-gray-400 uppercase">Run 2 (Test)</p>
+<p class="text-sm font-bold text-white">Temp: 0.9</p>
+</div>
+<span class="text-xl font-bold text-yellow-400 font-mono">0.85 <i class="fas fa-arrow-down text-xs ml-1"></i></span>
+</div>
+<p class="text-xs text-gray-300 italic mt-2 border-t border-gray-700 pt-2">
+                        Conclusion: Lower temperature improves coherence for medical queries.
+                    </p>
+</div>
+</div>
+<!-- Discussion Area -->
+<div class="discussion-box rounded-xl p-5 flex flex-col justify-center">
+<h4 class="text-green-400 font-bold text-md mb-3 flex items-center">
+<i class="fas fa-comments mr-2"></i> Discussion
+                </h4>
+<ul class="space-y-2 text-sm text-gray-300">
+<li class="flex items-start">
+<i class="fas fa-question-circle text-blue-400 mt-1 mr-2"></i>
+                        How do you currently validate ML models?
+                    </li>
+<li class="flex items-start">
+<i class="fas fa-question-circle text-blue-400 mt-1 mr-2"></i>
+                        What quality thresholds does your org use?
+                    </li>
+<li class="flex items-start">
+<i class="fas fa-question-circle text-blue-400 mt-1 mr-2"></i>
+                        How do you handle compliance/audit logs?
+                    </li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-12 py-3 border-t border-gray-800 flex justify-between items-center text-gray-600 text-xs">
+<p>Adobe Systems - FDP Session</p>
+<p>Slide 24</p>
+</div>
+<script>
+        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        
+        const comparisonChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Run 1 (Temp 0.7)', 'Run 2 (Temp 0.9)'],
+                datasets: [
+                    {
+                        label: 'Quality Score',
+                        data: [0.98, 0.85],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.7)', // Blue for Baseline
+                            'rgba(245, 158, 11, 0.7)'  // Yellow for Test
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(245, 158, 11, 1)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        barPercentage: 0.5
+                    },
+                    {
+                        label: 'Coherence Score',
+                        data: [0.96, 0.82],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.3)', 
+                            'rgba(245, 158, 11, 0.3)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(245, 158, 11, 0.8)'
+                        ],
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        borderRadius: 6,
+                        barPercentage: 0.5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#cbd5e1',
+                            font: { family: "'Inter', sans-serif", size: 10 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                        titleColor: '#fff',
+                        bodyColor: '#e2e8f0',
+                        borderColor: '#475569',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 0.7,
+                        max: 1.0,
+                        grid: {
+                            color: '#334155',
+                            borderDash: [2, 4]
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: { family: "'JetBrains Mono', monospace" }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Score (0-1)',
+                            color: '#64748b'
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#e2e8f0',
+                            font: { family: "'Inter', sans-serif", weight: '600' }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+    </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

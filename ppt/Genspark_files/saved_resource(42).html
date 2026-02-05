@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Q&amp;A + Thank You</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0f172a; /* Slate 900 */
+        }
+        .bg-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231e293b' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .topic-pill {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 10px 16px;
+            border-radius: 50px;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            margin: 6px;
+            transition: all 0.3s ease;
+        }
+        .topic-pill:hover {
+            background-color: #334155;
+            color: white;
+            border-color: #64748b;
+            transform: translateY(-2px);
+        }
+        .topic-pill i {
+            margin-right: 8px;
+            color: #60a5fa; /* Blue 400 */
+        }
+        .contact-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #3b82f6; /* Blue 500 */
+        }
+        .repo-card {
+            background-color: #0f172a;
+            border: 1px dashed #475569;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: all 0.2s;
+        }
+        .social-link:hover {
+            background-color: #475569;
+            color: white;
+        }
+        .qa-bg-icon {
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 15rem;
+            color: #1e293b;
+            z-index: 0;
+            opacity: 0.5;
+            transform: rotate(-10deg);
+        }
+    </style>
+</head>
+<body class="w-[1280px] h-[720px] bg-grid text-white flex flex-col" data-new-gr-c-s-check-loaded="14.1271.0" data-gr-ext-installed="">
+<!-- Top Bar -->
+<div class="w-full h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col justify-center items-center px-16 relative overflow-hidden">
+<!-- Large Background Icon -->
+<i class="fas fa-comments qa-bg-icon"></i>
+<div class="w-full max-w-5xl z-10 grid grid-cols-2 gap-16 items-center">
+<!-- Left Column: Q&A Topics -->
+<div>
+<div class="mb-8">
+<span class="inline-block px-3 py-1 bg-blue-900 bg-opacity-50 text-blue-400 text-xs font-bold uppercase tracking-wider rounded-full border border-blue-800 mb-4">Discussion</span>
+<h1 class="text-6xl font-bold text-white mb-2 tracking-tight">Q&amp;A</h1>
+<p class="text-xl text-gray-400">Questions? Let's discuss.</p>
+</div>
+<div class="flex flex-wrap -m-1.5">
+<div class="topic-pill">
+<i class="fas fa-cloud"></i>
+<span>Cloud vs Edge Decision</span>
+</div>
+<div class="topic-pill">
+<i class="fas fa-shield-alt"></i>
+<span>HIPAA Details</span>
+</div>
+<div class="topic-pill">
+<i class="fas fa-rocket"></i>
+<span>Deployment Strategies</span>
+</div>
+<div class="topic-pill">
+<i class="fas fa-dollar-sign"></i>
+<span>Cost Considerations</span>
+</div>
+<div class="topic-pill">
+<i class="fas fa-plug"></i>
+<span>System Integration</span>
+</div>
+<div class="topic-pill">
+<i class="fas fa-chart-line"></i>
+<span>Production Scaling</span>
+</div>
+<div class="topic-pill">
+<i class="fas fa-brain"></i>
+<span>Model Selection</span>
+</div>
+<div class="topic-pill">
+<i class="fas fa-network-wired"></i>
+<span>Hybrid Architecture</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Contact & Thank You -->
+<div>
+<div class="contact-card mb-8 shadow-2xl">
+<div class="flex items-center mb-6">
+<div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-2xl font-bold text-white shadow-lg mr-4">
+                            UR
+                        </div>
+<div>
+<h2 class="text-2xl font-bold text-white">Ullas Lakku Raghavendra</h2>
+<p class="text-blue-400 font-medium">Adobe Systems</p>
+</div>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex items-center text-gray-300">
+<i class="fas fa-envelope w-6 text-gray-500"></i>
+<span>ullas.raghavendra@adobe.com</span>
+</div>
+<div class="flex items-center text-gray-300">
+<i class="fab fa-linkedin w-6 text-gray-500"></i>
+<span>linkedin.com/in/ullaslr</span>
+</div>
+</div>
+<div class="repo-card group cursor-pointer transition-colors hover:border-blue-500 hover:bg-gray-800">
+<div class="text-3xl mr-4 text-gray-500 group-hover:text-white transition-colors">
+<i class="fab fa-github"></i>
+</div>
+<div>
+<p class="text-xs text-gray-500 uppercase font-bold tracking-wider mb-0.5">Project Repository</p>
+<p class="text-lg font-mono font-bold text-blue-400 group-hover:text-blue-300">github.com/ullas-lr/MLFlow</p>
+</div>
+<i class="fas fa-external-link-alt ml-auto text-gray-600 group-hover:text-white"></i>
+</div>
+</div>
+<div class="text-center">
+<h3 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                        Thank You for Attending!
+                    </h3>
+<p class="text-gray-500 text-sm mt-2">Feedback is always appreciated.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-12 py-4 border-t border-gray-800 flex justify-between items-center text-gray-600 text-xs bg-gray-900 bg-opacity-50">
+<p>Adobe Systems - FDP Session</p>
+<div class="flex items-center space-x-4">
+<span>© 2026 Ullas Lakku Raghavendra</span>
+<span class="w-1 h-1 rounded-full bg-gray-600"></span>
+<span>Slide 42</span>
+</div>
+</div>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

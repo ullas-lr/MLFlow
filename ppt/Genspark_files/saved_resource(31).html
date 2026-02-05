@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Drift Dashboard &amp; Components</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0f172a; /* Slate 900 */
+        }
+        .bg-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231e293b' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .dashboard-card {
+            background-color: #1e293b; /* Slate 800 */
+            border: 1px solid #334155;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-green { background-color: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+        .status-yellow { background-color: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+        .status-red { background-color: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+        
+        .flow-step {
+            background-color: #0f172a;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #cbd5e1;
+            position: relative;
+            z-index: 2;
+        }
+        .flow-line {
+            position: absolute;
+            top: 50%;
+            height: 2px;
+            background-color: #475569;
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .alert-row {
+            border-left: 3px solid transparent;
+            padding-left: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="w-[1280px] h-[720px] bg-grid text-white flex flex-col" data-new-gr-c-s-check-loaded="14.1271.0" data-gr-ext-installed="">
+<!-- Top Bar -->
+<div class="w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500"></div>
+<!-- Header Section -->
+<div class="px-12 pt-8 pb-4 flex justify-between items-end border-b border-gray-800">
+<div>
+<div class="flex items-center space-x-3 mb-2">
+<span class="bg-purple-900 text-purple-300 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider border border-purple-800">Part 4</span>
+<span class="text-gray-400 text-sm font-medium tracking-wide">Model Monitoring</span>
+</div>
+<h1 class="text-4xl font-bold text-white tracking-tight">Drift Dashboard &amp; Components</h1>
+</div>
+<div class="flex items-center space-x-2 text-gray-500 text-sm font-mono">
+<i class="fas fa-tachometer-alt"></i>
+<span>Live Monitoring</span>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 px-12 py-6 flex flex-col overflow-hidden">
+<!-- Top Row: Status Cards (KPIs) -->
+<div class="grid grid-cols-4 gap-4 mb-6">
+<!-- Card 1: System Status -->
+<div class="dashboard-card p-4 flex items-center justify-between border-l-4 border-green-500">
+<div>
+<p class="text-xs text-gray-400 uppercase font-bold tracking-wider">System Status</p>
+<h3 class="text-xl font-bold text-white mt-1">Operational</h3>
+<p class="text-[10px] text-gray-500 mt-1">Uptime: 99.9%</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-green-900 bg-opacity-30 flex items-center justify-center text-green-400">
+<i class="fas fa-check"></i>
+</div>
+</div>
+<!-- Card 2: Quality Drift -->
+<div class="dashboard-card p-4 flex items-center justify-between border-l-4 border-green-500">
+<div>
+<p class="text-xs text-gray-400 uppercase font-bold tracking-wider">Quality Drift</p>
+<h3 class="text-xl font-bold text-white mt-1">Normal</h3>
+<p class="text-[10px] text-gray-500 mt-1">p-value: 0.85</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-green-900 bg-opacity-30 flex items-center justify-center text-green-400">
+<i class="fas fa-wave-square"></i>
+</div>
+</div>
+<!-- Card 3: Latency Drift -->
+<div class="dashboard-card p-4 flex items-center justify-between border-l-4 border-yellow-500">
+<div>
+<p class="text-xs text-gray-400 uppercase font-bold tracking-wider">Latency Drift</p>
+<h3 class="text-xl font-bold text-yellow-400 mt-1">Warning</h3>
+<p class="text-[10px] text-gray-500 mt-1">+22% vs Baseline</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-yellow-900 bg-opacity-30 flex items-center justify-center text-yellow-400">
+<i class="fas fa-exclamation-triangle"></i>
+</div>
+</div>
+<!-- Card 4: Data Drift -->
+<div class="dashboard-card p-4 flex items-center justify-between border-l-4 border-green-500">
+<div>
+<p class="text-xs text-gray-400 uppercase font-bold tracking-wider">Data Drift</p>
+<h3 class="text-xl font-bold text-white mt-1">Stable</h3>
+<p class="text-[10px] text-gray-500 mt-1">KL Div: 0.12</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-blue-900 bg-opacity-30 flex items-center justify-center text-blue-400">
+<i class="fas fa-database"></i>
+</div>
+</div>
+</div>
+<!-- Middle Row: Charts -->
+<div class="flex-1 grid grid-cols-2 gap-6 mb-6 min-h-0">
+<!-- Chart 1: Quality Trend -->
+<div class="dashboard-card p-4 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-sm font-bold text-gray-200">
+<i class="fas fa-chart-line text-blue-400 mr-2"></i>Quality Score Trend
+                    </h3>
+<div class="text-xs text-gray-500 bg-gray-900 px-2 py-1 rounded">Last 24h</div>
+</div>
+<div class="flex-1 relative w-full h-full">
+<canvas id="qualityChart"></canvas>
+</div>
+</div>
+<!-- Chart 2: Latency Trend -->
+<div class="dashboard-card p-4 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-sm font-bold text-gray-200">
+<i class="fas fa-history text-yellow-400 mr-2"></i>Response Latency
+                    </h3>
+<div class="text-xs text-gray-500 bg-gray-900 px-2 py-1 rounded">Last 24h</div>
+</div>
+<div class="flex-1 relative w-full h-full">
+<canvas id="latencyChart"></canvas>
+</div>
+</div>
+</div>
+<!-- Bottom Row: Alerts & Architecture -->
+<div class="h-40 grid grid-cols-3 gap-6">
+<!-- Alert Logic -->
+<div class="dashboard-card p-4 col-span-1">
+<h3 class="text-sm font-bold text-gray-200 mb-3 border-b border-gray-700 pb-2">
+<i class="fas fa-bell text-red-400 mr-2"></i>Alert Thresholds
+                </h3>
+<div class="space-y-2">
+<div class="alert-row border-green-500 bg-green-900 bg-opacity-10 rounded-r flex justify-between items-center p-2">
+<div>
+<p class="text-xs font-bold text-green-400">Normal</p>
+<p class="text-[10px] text-gray-400">Quality &gt; 0.90 | Latency &lt; 40s</p>
+</div>
+<i class="fas fa-check-circle text-green-500 text-xs"></i>
+</div>
+<div class="alert-row border-yellow-500 bg-yellow-900 bg-opacity-10 rounded-r flex justify-between items-center p-2">
+<div>
+<p class="text-xs font-bold text-yellow-400">Warning</p>
+<p class="text-[10px] text-gray-400">Quality 0.80-0.90 | Latency 40-50s</p>
+</div>
+<i class="fas fa-exclamation-circle text-yellow-500 text-xs"></i>
+</div>
+<div class="alert-row border-red-500 bg-red-900 bg-opacity-10 rounded-r flex justify-between items-center p-2">
+<div>
+<p class="text-xs font-bold text-red-400">Critical</p>
+<p class="text-[10px] text-gray-400">Quality &lt; 0.80 | Latency &gt; 50s</p>
+</div>
+<i class="fas fa-times-circle text-red-500 text-xs"></i>
+</div>
+</div>
+</div>
+<!-- Architecture Flow -->
+<div class="dashboard-card p-4 col-span-2 relative">
+<h3 class="text-sm font-bold text-gray-200 mb-6 border-b border-gray-700 pb-2">
+<i class="fas fa-project-diagram text-blue-400 mr-2"></i>Monitoring Architecture
+                </h3>
+<div class="flex items-center justify-between px-8 relative">
+<!-- Connecting Line -->
+<div class="absolute left-10 right-10 top-1/2 h-0.5 bg-gray-700 -z-0"></div>
+<!-- Steps -->
+<div class="flow-step w-24 bg-blue-900 bg-opacity-20 border-blue-700">
+<i class="fas fa-cubes text-blue-400 mb-1 text-lg"></i>
+<p class="font-bold text-blue-200">MLflow DB</p>
+</div>
+<div class="flow-step w-24 bg-purple-900 bg-opacity-20 border-purple-700">
+<i class="fas fa-cogs text-purple-400 mb-1 text-lg"></i>
+<p class="font-bold text-purple-200">Drift Module</p>
+</div>
+<div class="flow-step w-24 bg-green-900 bg-opacity-20 border-green-700">
+<i class="fas fa-calculator text-green-400 mb-1 text-lg"></i>
+<p class="font-bold text-green-200">Stat Tests</p>
+</div>
+<div class="flow-step w-24 bg-orange-900 bg-opacity-20 border-orange-700">
+<i class="fas fa-desktop text-orange-400 mb-1 text-lg"></i>
+<p class="font-bold text-orange-200">Dashboard</p>
+</div>
+<div class="flow-step w-24 bg-red-900 bg-opacity-20 border-red-700">
+<i class="fas fa-envelope text-red-400 mb-1 text-lg"></i>
+<p class="font-bold text-red-200">Alerts</p>
+</div>
+</div>
+<p class="text-[10px] text-gray-500 text-center mt-4">Automated Refresh Cycle: Every 60 Seconds</p>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-12 py-3 border-t border-gray-800 flex justify-between items-center text-gray-600 text-xs">
+<p>Adobe Systems - FDP Session</p>
+<p>Slide 31</p>
+</div>
+<script>
+        // Common Chart Config
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        
+        // Quality Chart
+        const ctxQuality = document.getElementById('qualityChart').getContext('2d');
+        new Chart(ctxQuality, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', 'Now'],
+                datasets: [
+                    {
+                        label: 'Avg Quality',
+                        data: [0.94, 0.93, 0.95, 0.92, 0.94, 0.93, 0.93],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Threshold',
+                        data: [0.80, 0.80, 0.80, 0.80, 0.80, 0.80, 0.80],
+                        borderColor: '#ef4444',
+                        borderDash: [5, 5],
+                        borderWidth: 1,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                scales: {
+                    y: {
+                        min: 0.7,
+                        max: 1.0,
+                        grid: { color: '#334155' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Latency Chart
+        const ctxLatency = document.getElementById('latencyChart').getContext('2d');
+        new Chart(ctxLatency, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', 'Now'],
+                datasets: [
+                    {
+                        label: 'Latency (s)',
+                        data: [28, 30, 35, 42, 45, 48, 46],
+                        borderColor: '#f59e0b', // Yellow
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Warning',
+                        data: [40, 40, 40, 40, 40, 40, 40],
+                        borderColor: '#f59e0b',
+                        borderDash: [5, 5],
+                        borderWidth: 1,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Critical',
+                        data: [50, 50, 50, 50, 50, 50, 50],
+                        borderColor: '#ef4444',
+                        borderDash: [5, 5],
+                        borderWidth: 1,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                scales: {
+                    y: {
+                        min: 20,
+                        max: 60,
+                        grid: { color: '#334155' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
